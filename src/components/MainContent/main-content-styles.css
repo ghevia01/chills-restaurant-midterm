@@ -1,0 +1,10 @@
+.main-content-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    padding: 5rem 10rem 0;
+    overflow-y: auto;
+    overflow-x: auto;
+    background-color: #fff;
+}

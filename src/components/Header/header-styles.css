@@ -1,0 +1,13 @@
+.header-container {
+    display: flex;
+    align-items: center;
+    height: 3rem;
+    padding: 14px 20px;
+    background-color: #FF9A1C;
+}
+
+.date-time {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: white;
+}
