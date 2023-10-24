@@ -36,7 +36,7 @@ This is an internal application designed for use by Chills Restaurant employees.
 
 2. **Navigate to the project folder:**
     ```bash
-    cd chills-restaurant-midterm/frontend
+    cd chills-restaurant-midterm
     ```
 
 3. **Install dependencies:**
