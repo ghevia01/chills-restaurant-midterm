@@ -1,8 +1,7 @@
 .sidebar-container {
-    display: flex;
-    flex-direction: column;
     width: 14rem;
-    height: 100vh;
-    overflow-y: auto;
+    height: 100%;
     background-color: #333;
+    overflow-y: auto;
+    /* border: thin solid #d85c5c; */
 }
