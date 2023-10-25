@@ -26,6 +26,9 @@ This is an internal application designed for use by Chills Restaurant employees.
 - Node.js
 - npm
 - MySQL 8.0
+- Java JDK 17
+- Maven
+- Docker (Including Compose)
 
 ### Steps
 
