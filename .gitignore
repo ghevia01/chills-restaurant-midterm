@@ -22,5 +22,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+
+# backend
 backend/app/mysql-data/*
 backend/app/mysql-config/*
+backend/app/target
+backend/app/HELP.md
+backend/app/.vscode/*
+
