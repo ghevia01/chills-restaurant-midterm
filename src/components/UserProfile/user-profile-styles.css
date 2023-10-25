@@ -16,19 +16,18 @@
     width: 7.5rem;
     height: 7.5rem;
     border-radius: 50%;
-    overflow: hidden;
     border: thin solid #fff;
     background-color: #fff;
+    overflow: hidden;
 }
 
-.profile-img {
+.profile-img-container img {
     width: 7rem;
     height: 7rem;
     border-radius: 50%;
 }
 
-h3 {
-    margin: 0;
-    font-size: 20px;
+.user-profile-container h3 {
+    font-size: 1.2rem;
     color: #fff;
 }
