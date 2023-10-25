@@ -1,7 +1,3 @@
-Certainly! Here's an updated `README.md` with a dedicated section explaining what the `pipeline.sh` does and how to execute it:
-
----
-
 # Chilli's Restaurant Backend
 
 ---
