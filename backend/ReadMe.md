@@ -1,7 +1,5 @@
 # Chilli's Restaurant Backend
 
----
-
 ## Chilli's Restaurant Backend Project
 
 This is a simple backend in Spring Boot that uses a MySQL database for persistence.
