@@ -2,27 +2,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 85%;
     height: 100%;
     gap: 2rem;
-    /* border: 1px solid #b02323; */
 }
 
-.nav-wrapper {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    gap: 10rem;
-    /* border: 1px solid #b02323; */
+.menu-section h2 {
+    font-size: 1rem;
 }
 
 .category-text-container {
     width: 100%;
     padding-left: .3rem;
-    /* border: thin solid #000; */
-}
-
-h2 {
-    font-size: 1rem;
 }
 
 .category-text {

@@ -9,14 +9,62 @@ import hamburger from "../../assets/hamburger.jpg";
 import "./menu-section-styles.css";
 
 // Array of menu tabs
-const menuTabs = ["Appetizers", "Entrees", "Sides", "Desserts", "Beverages"];
+const menuTabs = [
+  "All",
+  "Appetizers",
+  "Entrees",
+  "Sides",
+  "Desserts",
+  "Beverages",
+];
 
 const products = [
   {
     name: "Hamburger",
     price: 5.99,
     category: "Entrees",
-    description: "A delicious hamburger!",
+    description:
+      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
+    image: hamburger,
+  },
+  {
+    name: "Hamburger",
+    price: 5.99,
+    category: "Entrees",
+    description:
+      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
+    image: hamburger,
+  },
+  {
+    name: "Hamburger",
+    price: 5.99,
+    category: "Entrees",
+    description:
+      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
+    image: hamburger,
+  },
+  {
+    name: "Hamburger",
+    price: 5.99,
+    category: "Entrees",
+    description:
+      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
+    image: hamburger,
+  },
+  {
+    name: "Hamburger",
+    price: 5.99,
+    category: "Entrees",
+    description:
+      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
+    image: hamburger,
+  },
+  {
+    name: "Hamburger",
+    price: 5.99,
+    category: "Entrees",
+    description:
+      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
     image: hamburger,
   },
 ];
@@ -32,11 +80,9 @@ const MenuSection = () => {
 
   return (
     <section className="menu-section">
-      <div className="nav-wrapper">
-        {/* Pass the menuTabs array to the TabNavigation componentca and handle the tab click */}
-        <TabNavigation tabs={menuTabs} onTabClick={handleTabClick} />
-        <Searchbar />
-      </div>
+      {/* Pass the menuTabs array to the TabNavigation componentca and handle the tab click */}
+      <TabNavigation tabs={menuTabs} onTabClick={handleTabClick} />
+      <Searchbar />
       <div className="category-text-container">
         <h2>
           Category: <span className="category-text">{selectedTab}</span>

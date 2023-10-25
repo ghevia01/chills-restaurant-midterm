@@ -1,16 +1,18 @@
 .tab-navigation-container {
     display: flex;
     flex-direction: row;
-    gap: 0.8rem;
-    /* border: #444 1px solid; */
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
 }
 
 .tab {
+    width: 100%;
+    padding: .7rem 0;
     font-size: 1.2rem;
     font-weight: bold;
     color: rgba(229, 127, 0, 0.70);
-    width: 10rem;
-    padding: .7rem 0;
     border-radius: 0.8rem;
     border: 1px solid #d0d0d0;
     background-color: #fff;
@@ -22,7 +24,6 @@
 .tab.active {
     color: #fff;
     background-color: #FF9A1C;
-    /* border: 1px solid #ffffff; */
     border: 1px solid transparent;
 }
 
