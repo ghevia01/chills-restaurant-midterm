@@ -25,7 +25,7 @@ This is an internal application designed for use by Chills Restaurant employees.
 
 - Node.js
 - npm
-- [Database still to be chosen]
+- MySQL 8.0
 
 ### Steps
 
