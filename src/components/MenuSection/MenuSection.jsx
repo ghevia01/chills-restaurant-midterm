@@ -4,7 +4,9 @@ import TabNavigation from "../TabNavigation/TabNavigation";
 import Searchbar from "../Searchbar/Searchbar";
 import ProductsList from "../ProductsList/ProductsList";
 
-import hamburger from "../../assets/hamburger.jpg";
+import hamburgerImg from "../../assets/hamburger.jpg";
+import pepperoniPizzaImg from "../../assets/pepperoni-pizza.jpg";
+import friesImg from "../../assets/french-fries.jpg";
 
 import "./menu-section-styles.css";
 
@@ -20,52 +22,50 @@ const menuTabs = [
 
 const products = [
   {
-    name: "Hamburger",
+    name: "Mozzarella Sticks",
     price: 5.99,
-    category: "Entrees",
+    category: "Appetizers",
     description:
-      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
-    image: hamburger,
+      "A classic appetizer made with breaded mozzarella cheese served with marinara sauce.",
+    image: null,
   },
   {
     name: "Hamburger",
-    price: 5.99,
+    price: 8.99,
     category: "Entrees",
     description:
-      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
-    image: hamburger,
+      "A classic hamburger made with our house blend of beef, served with lettuce, tomato, and onion and melted cheese.",
+    image: hamburgerImg,
   },
   {
-    name: "Hamburger",
-    price: 5.99,
+    name: "Pepperoni Pizza",
+    price: 14.99,
     category: "Entrees",
     description:
-      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
-    image: hamburger,
+      "A classic pizza topped with tomato sauce, mozzarella cheese, and pepperoni.",
+    image: pepperoniPizzaImg,
   },
   {
-    name: "Hamburger",
-    price: 5.99,
-    category: "Entrees",
-    description:
-      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
-    image: hamburger,
+    name: "French Fries",
+    price: 3.99,
+    category: "Sides",
+    description: "A side of crispy french fries.",
+    image: friesImg,
   },
   {
-    name: "Hamburger",
+    name: "Tiramisu",
     price: 5.99,
-    category: "Entrees",
+    category: "Desserts",
     description:
-      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
-    image: hamburger,
+      "A classic Italian dessert made with ladyfingers, mascarpone, and espresso.",
+    image: null,
   },
   {
-    name: "Hamburger",
-    price: 5.99,
-    category: "Entrees",
-    description:
-      "A juicy, handcrafted patty made from premium ground beef, cooked to perfection and topped with crisp lettuce, ripe tomato, and a slice of aged cheddar.",
-    image: hamburger,
+    name: "Coca-Cola",
+    price: 2.99,
+    category: "Beverages",
+    description: "A can of Coca-Cola.",
+    image: null,
   },
 ];
 
@@ -78,6 +78,19 @@ const MenuSection = () => {
     setSelectedTab(tab);
   };
 
+  // Filter the products based on the selected tab
+  const filteredProducts =
+    selectedTab === "All"
+      ? products.sort((a, b) => {
+          // Get the index of the categories in the menuTabs array
+          const indexA = menuTabs.indexOf(a.category);
+          const indexB = menuTabs.indexOf(b.category);
+
+          // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
+          return indexA - indexB;
+        })
+      : products.filter((product) => product.category === selectedTab);
+
   return (
     <section className="menu-section">
       {/* Pass the menuTabs array to the TabNavigation componentca and handle the tab click */}
@@ -89,7 +102,7 @@ const MenuSection = () => {
         </h2>
       </div>
       {/* Pass the selected tab and the products array to the ProductsList component */}
-      <ProductsList products={products} />
+      <ProductsList products={filteredProducts} />
     </section>
   );
 };
