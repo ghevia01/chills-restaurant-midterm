@@ -24,7 +24,7 @@
 .tab.active {
     color: #fff;
     background-color: #FF9A1C;
-    border: 1px solid transparent;
+    border: 1px solid #ffffff;
 }
 
 .tab:not(.active):hover  {
