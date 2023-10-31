@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import TabNavigation from "../TabNavigation/TabNavigation";
 import Searchbar from "../Searchbar/Searchbar";
-import ProductsList from "../ProductsList/ProductsList";
+import MenuList from "../MenuList/MenuList";
 
 import hamburgerImg from "../../assets/hamburger.jpg";
 import pepperoniPizzaImg from "../../assets/pepperoni-pizza.jpg";
@@ -20,7 +20,7 @@ const menuTabs = [
   "Beverages",
 ];
 
-const products = [
+const menuItems = [
   {
     name: "Mozzarella Sticks",
     price: 5.99,
@@ -78,10 +78,10 @@ const MenuSection = () => {
     setSelectedTab(tab);
   };
 
-  // Filter the products based on the selected tab
-  const filteredProducts =
+  // Filter the items based on the selected tab
+  const filteredItems =
     selectedTab === "All"
-      ? products.sort((a, b) => {
+      ? menuItems.sort((a, b) => {
           // Get the index of the categories in the menuTabs array
           const indexA = menuTabs.indexOf(a.category);
           const indexB = menuTabs.indexOf(b.category);
@@ -89,7 +89,7 @@ const MenuSection = () => {
           // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
           return indexA - indexB;
         })
-      : products.filter((product) => product.category === selectedTab);
+      : menuItems.filter((item) => item.category === selectedTab);
 
   return (
     <section className="menu-section">
@@ -101,8 +101,8 @@ const MenuSection = () => {
           Category: <span className="category-text">{selectedTab}</span>
         </h2>
       </div>
-      {/* Pass the selected tab and the products array to the ProductsList component */}
-      <ProductsList products={filteredProducts} />
+      {/* Pass the filtered items array to the ProductsList component */}
+      <MenuList items={filteredItems} />
     </section>
   );
 };
