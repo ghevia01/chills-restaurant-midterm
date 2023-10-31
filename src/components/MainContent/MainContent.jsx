@@ -3,7 +3,7 @@ import React from "react";
 import "./main-content-styles.css";
 
 const MainContent = ({ children }) => {
-  return <div className="main-content-container">{children}</div>;
+  return <section className="main-content-container">{children}</section>;
 };
 
 export default MainContent;
