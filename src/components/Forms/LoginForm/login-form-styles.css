@@ -1,0 +1,28 @@
+.login-form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+}
+
+.form-btn {
+    width: 100%;
+    height: 2.8rem;
+    margin-top: 0.4rem;
+    margin-bottom: 0.8rem;
+}
+
+/* Mobile devices (480px) */
+@media (max-width: 480px) {
+
+    /* Empty for now */
+}
+
+/* iPads, Tablets (481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+    .form-btn {
+        height: 2.4rem;
+        margin-top: 0.1rem;
+        font-size: 1rem;
+    }
+}

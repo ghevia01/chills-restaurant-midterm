@@ -1,0 +1,92 @@
+.field-container {
+    width: 100%;
+    margin-bottom: 1rem;
+    /* border: #000 solid 1px; */
+}
+
+.field-label {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 0.1rem;
+    color: #000;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.field {
+    width: 100%;
+    height: 2.8rem;
+    font-size: 1.1rem;
+    padding: 1.1rem 0.6rem;
+    border-radius: 6px;
+    border: 1px solid #FF9A1C;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.input-wrapper {
+    position: relative;
+}
+
+.icon-btn {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    width: 3rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.field::placeholder {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: rgb(117, 117, 117);
+}
+
+.field:focus {
+    outline: 2px solid #ff8c00;
+}
+
+.eye-icon {
+    font-size: 1rem;
+    vertical-align: middle;
+    color: rgb(117, 117, 117);
+}
+
+.error-msg {
+    width: 100%;
+    height: 1rem;
+    margin-top: 0.3rem;
+    font-size: 0.9rem;
+    color: #ff0000;
+}
+
+/* Mobile devices (480px) */
+@media (max-width: 480px) {
+
+    /* Empty for now */
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+    .form-field-label {
+        font-size: 1rem;
+    }
+
+    .form-field {
+        height: 2.4rem;
+        font-size: 1rem;
+    }
+
+    .form-field::placeholder {
+        font-size: 0.8rem;
+    }
+
+    .eye-icon {
+        font-size: 0.9rem;
+    }
+
+    .error-msg {
+        font-size: 0.8rem;
+    }
+}
