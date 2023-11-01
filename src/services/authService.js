@@ -9,7 +9,6 @@ export const sendUserLoginData = async (loginFormData) => {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(loginFormData),
-            credentials: 'include', // Required to send and receive cookies
         });
 
         // Get the response from the server
@@ -17,6 +16,10 @@ export const sendUserLoginData = async (loginFormData) => {
 
         // Check if the response is ok
         if (response.ok) {
+
+            // Store token in sessionStorage
+            sessionStorage.setItem('authToken', data.token);
+            
             return {
                 result: 'success',
                 data: data,
