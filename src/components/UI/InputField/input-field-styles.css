@@ -1,16 +1,16 @@
 .field-container {
+    display: flex;
+    flex-direction: column;
     width: 100%;
-    margin-bottom: 1rem;
-    /* border: #000 solid 1px; */
+    margin-bottom: 0.6rem;
 }
 
 .field-label {
-    display: inline-block;
     width: 100%;
-    margin-bottom: 0.1rem;
-    color: #000;
+    margin-bottom: 0.2rem;
     font-size: 1.1rem;
     font-weight: 700;
+    color: #111;
 }
 
 .field {
@@ -18,9 +18,10 @@
     height: 2.8rem;
     font-size: 1.1rem;
     padding: 1.1rem 0.6rem;
-    border-radius: 6px;
-    border: 1px solid #FF9A1C;
-    background: #FFF;
+    border-radius: 0.5rem;
+    border: 1px solid #ffaa43;
+    outline: none;
+    background: #ffffff;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 }
 
@@ -40,12 +41,13 @@
 
 .field::placeholder {
     font-size: 0.9rem;
-    font-weight: 700;
-    color: rgb(117, 117, 117);
+    font-weight: bold;
+    color: rgb(143, 143, 143);
 }
 
 .field:focus {
-    outline: 2px solid #ff8c00;
+    outline: 1px solid #FF9A1C;
+
 }
 
 .eye-icon {
