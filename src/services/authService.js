@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // Send --POST-- request to the server with the login form data
-export const sendUserLoginData = async (loginFormData) => {
+export const sendLoginData = async (loginFormData) => {
     const LOGIN_URL = process.env.REACT_APP_LOGIN_URL;
 
     try {
