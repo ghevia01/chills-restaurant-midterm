@@ -1,7 +1,7 @@
 import React from "react";
-import { useFormik } from "formik";
-import { sendUserLoginData } from "../../../services/authService";
 
+import { Link } from "react-router-dom";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import InputField from "../../UI/InputField/InputField";
@@ -25,7 +25,8 @@ const loginValidationSchema = Yup.object({
 
 // ---------------------------------------------------- LoginForm Component ---------------------------------------------------->
 
-const LoginForm = () => {
+const LoginForm = ({ onLogin }) => {
+
   // Formik hook, for handling form state, validation and submission.
   const formik = useFormik({
     initialValues: defaultLoginData,
@@ -37,62 +38,75 @@ const LoginForm = () => {
 
   // -------------------------------------------------- Form Handlers -------------------------------------------------->
 
-  // Function for handling form submission
+  // Function to handle form submission
   const handleFormSubmit = async (values) => {
-    // Send form data to backend
-    const { result, data, message } = await sendUserLoginData(values);
-
-    if (result === "success") {
-      console.log(`successful login, ${JSON.stringify(data)}`);
-      // TODO: Add code to log the user in
-    } else {
-      console.log(`unsuccessful login, ${message}`);
-      // TODO: Add code to display error message
+    if (onLogin) {
+      const success = await onLogin(values);
+      if (!success) {
+        // Handle unsuccessful login (e.g., show an error message to the user).
+      }
     }
-
-    // Reset form after submission (This is to be removed when the form is connected to the backend)
-    formik.resetForm();
   };
 
   // --------------------------------------------------      JSX      -------------------------------------------------->
   return (
-    <form
-      className="login-form"
-      onSubmit={formik.handleSubmit}
-    >
-      <InputField
-        label="Employee ID"
-        className=""
-        type="text"
-        name="employeeId"
-        value={formik.values.employeeId}
-        onChange={formik.handleChange}
-        placeholder="Enter employee ID"
-        aria-label="Enter employee ID"
-        errors={formik.errors}
-        touched={formik.touched}
-      />
+    <div className="login-form">
+      <header className="login-header">
+        <h1>Sign in</h1>
+      </header>
+      <div className="section-divider"></div>
+      <form
+        onSubmit={formik.handleSubmit}
+      >
+        <InputField
+          label="Employee ID"
+          className=""
+          type="text"
+          name="employeeId"
+          value={formik.values.employeeId}
+          onChange={formik.handleChange}
+          placeholder="Enter employee ID"
+          aria-label="Enter employee ID"
+          errors={formik.errors}
+          touched={formik.touched}
+        />
 
-      <InputField
-        label="Password"
-        className=""
-        type="password"
-        name="password"
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        placeholder="Enter password"
-        aria-label="Enter password"
-        errors={formik.errors}
-        touched={formik.touched}
-      />
+        <InputField
+          label="Password"
+          className=""
+          type="password"
+          name="password"
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          placeholder="Enter password"
+          aria-label="Enter password"
+          errors={formik.errors}
+          touched={formik.touched}
+        />
 
-      <Button
-        className="form-btn"
-        type="submit"
-        name="loginBtn"
-        text="Sign in"
-      />
-    </form>
+        <Button
+          className="form-btn"
+          type="submit"
+          name="loginBtn"
+          text="Sign in"
+        />
+
+        <ul className="aux-links-list">
+          <li className="register-text">
+            {`Don't have an account yet? `}
+            <Link to="/register" className="link">
+              Sign up!
+            </Link>
+          </li>
+
+          <li className="access-help-text">
+            <Link to="/login" className="link">
+              Can't access your account?
+            </Link>
+          </li>
+        </ul>
+      </form>
+    </div>
   );
 };
 

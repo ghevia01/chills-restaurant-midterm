@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthProvider";
 
 import LoginPage from "./pages/LoginPage/LoginPage"
 import Dashboard from "./pages/Dashboard/Dashboard";
@@ -10,10 +11,12 @@ function App() {
   return (
     <div className="app-container">
       <Router>
-        <Routes>
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/dashboard/*" element={<Dashboard />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/dashboard/*" element={<Dashboard />} />
+          </Routes>
+        </AuthProvider>
       </Router>
     </div>
   );

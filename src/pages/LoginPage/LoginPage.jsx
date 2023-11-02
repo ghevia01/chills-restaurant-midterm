@@ -1,39 +1,48 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../contexts/AuthProvider";
+import { sendUserLoginData } from "../../services/authService";
 
-import MainContent from "../../components/Layouts/MainContent/MainContent";
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 
 import "./login-page-styles.css";
 
 const LoginPage = () => {
+
+  // Get login function from AuthProvider
+  const { login } = useAuth();
+
+  // Get navigate function
+  const navigate = useNavigate();
+
+
+  // Function to handle login
+  const handleLogin = async (loginData) => {
+    try {
+      // Send login data to the server.
+      const { success, role } = await sendUserLoginData(loginData);
+
+      // If response is successful, login and navigate to dashboard.
+      if (success) {
+        login(role);
+        navigate('/dashboard', { replace: true });
+        return true;
+      }
+      // Handle unsuccessful login.
+      return false;
+    } catch (error) {
+      // Handle errors.
+      console.error("Failed to login:", error);
+      return false;
+    }
+  };
+
   return (
-    <section className="login-page">
-      <MainContent>
-        <div className="login-form-container">
-          <header className="login-header-container">
-            <h1>Sign in</h1>
-          </header>
-
-          <LoginForm />
-
-          <ul>
-            <li className="register-text">
-              Don't have an account yet?{" "}
-              <Link to="/register" className="link">
-                Sign up!
-              </Link>
-            </li>
-
-            <li className="access-help-text">
-              <Link to="/login" className="link">
-                Can't access your account?
-              </Link>
-            </li>
-          </ul>
-        </div>
-      </MainContent>
-    </section>
+    <div className="login-page">
+      <main>
+        <LoginForm onLogin={handleLogin} />
+      </main>
+    </div>
   );
 };
 
