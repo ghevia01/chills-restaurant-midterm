@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
@@ -25,7 +26,7 @@ const loginValidationSchema = Yup.object({
 
 // ---------------------------------------------------- LoginForm Component ---------------------------------------------------->
 
-const LoginForm = ({ onLogin }) => {
+const LoginForm = ({ onLoginAttempt }) => {
 
   // Formik hook, for handling form state, validation and submission.
   const formik = useFormik({
@@ -40,12 +41,10 @@ const LoginForm = ({ onLogin }) => {
 
   // Function to handle form submission
   const handleFormSubmit = async (values) => {
-    if (onLogin) {
-      const success = await onLogin(values);
+      const success = await onLoginAttempt(values);
       if (!success) {
         // Handle unsuccessful login (e.g., show an error message to the user).
       }
-    }
   };
 
   // --------------------------------------------------      JSX      -------------------------------------------------->
@@ -60,7 +59,6 @@ const LoginForm = ({ onLogin }) => {
       >
         <InputField
           label="Employee ID"
-          className=""
           type="text"
           name="employeeId"
           value={formik.values.employeeId}
@@ -73,7 +71,6 @@ const LoginForm = ({ onLogin }) => {
 
         <InputField
           label="Password"
-          className=""
           type="password"
           name="password"
           value={formik.values.password}
@@ -108,6 +105,11 @@ const LoginForm = ({ onLogin }) => {
       </form>
     </div>
   );
+};
+
+// Setting PropTypes for the LoginForm component
+LoginForm.propTypes = {
+  onLoginAttempt: PropTypes.func.isRequired,
 };
 
 export default LoginForm;

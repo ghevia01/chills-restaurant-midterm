@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
-import { sendUserLoginData } from "../../services/authService";
+import { sendLoginData } from "../../services/authService";
 
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 
@@ -20,10 +20,11 @@ const LoginPage = () => {
   const handleLogin = async (loginData) => {
     try {
       // Send login data to the server.
-      const { result,role } = await sendUserLoginData(loginData);
-      
+
+      const { result, role } = await sendLoginData(loginData);
+
       // If response is successful, login and navigate to dashboard.
-      if (result === 'success') {
+      if (result === "success") {
         login(role);
         navigate('/dashboard', { replace: true });
         return true;
@@ -40,7 +41,7 @@ const LoginPage = () => {
   return (
     <div className="login-page">
       <main>
-        <LoginForm onLogin={handleLogin} />
+        <LoginForm onLoginAttempt={handleLogin} />
       </main>
     </div>
   );

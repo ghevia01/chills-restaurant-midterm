@@ -8,7 +8,6 @@ export const sendUserLoginData = async (loginFormData) => {
       "/api/v1/auth/signin/employee",
       loginFormData
     );
-
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
       return {
