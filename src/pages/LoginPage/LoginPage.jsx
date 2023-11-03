@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
-import { sendLoginData } from "../../services/authService";
+import { sendUserLoginData } from "../../services/authService";
 
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 
@@ -21,7 +21,7 @@ const LoginPage = () => {
     try {
       // Send login data to the server.
 
-      const { result, role } = await sendLoginData(loginData);
+      const { result, role } = await sendUserLoginData(loginData);
 
       // If response is successful, login and navigate to dashboard.
       if (result === "success") {
