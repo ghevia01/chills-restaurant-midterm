@@ -58,16 +58,17 @@ const MenuSection = () => {
 
   // Filter the items based on the selected tab
   const filteredItems =
-    selectedTab === "All"
-      ? menuItems.sort((a, b) => {
-          // Get the index of the categories in the menuTabs array
-          const indexA = menuTabs.indexOf(a.category);
-          const indexB = menuTabs.indexOf(b.category);
+  selectedTab === "All"
+    ? [...menuItems].sort((a, b) => { // Create a copy of the array and sort it
+        // Get the index of the categories in the menuTabs array
+        const indexA = menuTabs.indexOf(a.category);
+        const indexB = menuTabs.indexOf(b.category);
 
-          // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
-          return indexA - indexB;
-        })
-      : menuItems.filter((item) => item.category === selectedTab);
+        // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
+        return indexA - indexB;
+      })
+    : menuItems.filter((item) => item.category === selectedTab);
+
 
   return (
     <section className="menu-section">
