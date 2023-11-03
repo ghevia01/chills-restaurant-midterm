@@ -8,7 +8,7 @@ WORKDIR /app
 RUN npm install -g serve
 
 # Copy the build output from the previous stage
-COPY --from=build-stage /app/build /app/build
+COPY --from=build /app/build /app/build
 
 # Expose the desired port
 EXPOSE 8082
