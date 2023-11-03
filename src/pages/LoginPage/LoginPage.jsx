@@ -20,6 +20,7 @@ const LoginPage = () => {
   const handleLogin = async (loginData) => {
     try {
       // Send login data to the server.
+
       const { result, role } = await sendLoginData(loginData);
 
       // If response is successful, login and navigate to dashboard.

@@ -1,19 +1,14 @@
 import API from "../axios";
 
-// Send --POST-- request to the server with the login form data
-export const sendUserLoginData = async (loginFormData) => {
+export const getMenuItemData= async () => {
   try {
-    // Send the login form data to the server
-    const response = await API.post(
-      "/api/v1/auth/signin/employee",
-      loginFormData
-    );
+    const response = await API.get("/api/food/all");
+
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
       return {
         result: "success",
         data: response.data,
-        role: response.data.role,
         message: null,
       };
     } else {
@@ -22,12 +17,12 @@ export const sendUserLoginData = async (loginFormData) => {
       return {
         result: "error",
         data: null,
-        message: errorMessage || "An error occurred while signing in",
+        message: errorMessage || "An error occurred while getting Menu Items",
       };
     }
   } catch (error) {
     // Log the error
-    console.error("Error in sendUserLoginData:", error.message);
+    console.error("Error in getMenuItemData:", error.message);
 
     // If the server sends back an error response, it might be available in error.response.data
     const serverMessage =
