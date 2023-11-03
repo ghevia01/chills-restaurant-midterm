@@ -1,30 +1,38 @@
-# Use an official Node runtime as a parent image
-FROM node:16
+# Stage 1: Build the React application
+FROM node:16-alpine as build-stage
 
-# Set the working directory in the container to /app
+# Set the working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json (or yarn.lock) to the container
-COPY package*.json ./
+# Copy package.json and package-lock.json (if available) to the working directory
+COPY package.json package-lock.json ./
 
-# If you're using yarn, copy yarn.lock as well
-# COPY yarn.lock ./
+# Install project dependencies
+# If you have native dependencies, you can't use `npm ci` without first copying
+# over the necessary files. In that case, use `RUN npm install` instead.
+RUN npm ci --only=production
 
-# Install any needed packages specified in package.json
-RUN npm install
-
-# If you're using yarn, run yarn install instead
-# RUN yarn install
-
-# Bundle the app source inside the Docker image
+# Copy the project files into the working directory
 COPY . .
 
-# Make port 8082 available to the world outside this container
+# Build the app for production to the build folder
+RUN npm run build
+
+# Stage 2: Serve the React application using serve
+FROM node:16-alpine
+
+# Install serve globally
+RUN npm install -g serve
+
+# Set the working directory to serve the build files
+WORKDIR /app
+
+
+# Copy the build output from the previous stage
+COPY --from=build-stage /app/build .
+
+# Serve the static files on port 8082
+CMD ["serve", "-s", ".", "-l", "8082"]
+
+# Expose port 8082 to the outside once the container has launched
 EXPOSE 8082
-
-# Define environment variable for the development server port
-ENV PORT=8082
-ENV NODE_ENV=development
-
-# Run npm start when the container launches
-CMD ["npm", "start"]
