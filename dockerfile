@@ -27,6 +27,7 @@ RUN npm install -g serve
 # Set the working directory to serve the build files
 WORKDIR /app
 
+
 # Copy the build output from the previous stage
 COPY --from=build-stage /app/build .
 
