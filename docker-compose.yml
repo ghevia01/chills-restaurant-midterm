@@ -4,7 +4,7 @@ services:
   react-app:
     image: chills-app:latest
     ports:
-      - "8082:8082"
+      - "80:80"
     environment:
       - REACT_APP_API_URL=http://172.20.1.10:8081
     restart: unless-stopped
