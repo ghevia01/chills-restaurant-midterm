@@ -2,7 +2,7 @@ import API from "../axios";
 
 export const getMenuItemData= async () => {
   try {
-    const response = await API.get("/api/food/all");
+    const response = await API.get("/food/all");
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {

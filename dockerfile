@@ -1,4 +1,3 @@
-# Stage 1: Build the React application
 FROM node:16-alpine as build-stage
 
 # Set the working directory
@@ -36,3 +35,4 @@ CMD ["serve", "-s", ".", "-l", "8082"]
 
 # Expose port 8082 to the outside once the container has launched
 EXPOSE 8082
+
