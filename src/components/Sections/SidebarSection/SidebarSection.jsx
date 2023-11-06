@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./sidebar-styles.css";
+import "./sidebar-section-styles.css";
 
 const Sidebar = ({ children }) => {
   return <div className="sidebar-container">{children}</div>;
