@@ -1,6 +1,7 @@
 .menu-item-card {
     width: 16rem;
     height: 18rem;
+    margin: 0 auto;
     padding-bottom: 0.5rem;
     border-radius: 1rem;
     background-color: #ffffff;
