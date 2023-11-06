@@ -2,18 +2,24 @@ import React from "react";
 
 import "./menu-item-card-styles.css";
 
+const MenuItemCard = ({ item, isOrdering, onAddToOrder }) => {
 
-const MenuItemCard = ({ item }) => {
+  // Use base64-encoded image if provided, otherwise use placeholder.
+  // const imageSrc = image
+  //   ? `data:image/jpeg;base64,${image}`
+  //   : "placeholder-image-url";
+
+  // Function to handle add to order on button click
+  const handleAddToOrder = () => {
+    if (onAddToOrder) {
+      onAddToOrder(item);
+    }
+  };
   
-  // Assume 'item.image' is a base64 encoded string of the image
-  const imageSrc = item.image
-    ? `data:image/jpeg;base64,${item.image}`
-    : "placeholder-image-url";
-
   return (
     <div className="menu-item-card">
       <div className="item-img-container">
-        <img src={imageSrc} alt="Menu Item" />
+        <img src={item.image} alt="Menu Item" />
       </div>
       <div className="item-info-container">
         <div className="item-name-price-container">
@@ -24,6 +30,11 @@ const MenuItemCard = ({ item }) => {
           <p>{item.description}</p>
         </div>
       </div>
+      {isOrdering && (
+        <div className="order-button-container">
+          <button className="order-button" onClick={handleAddToOrder}>Add</button>
+        </div>
+      )}
     </div>
   );
 };
