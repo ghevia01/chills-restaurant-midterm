@@ -5,15 +5,10 @@ import "./menu-item-card-styles.css";
 
 const MenuItemCard = ({ item }) => {
   
-  // Assume 'item.image' is a base64 encoded string of the image
-  const imageSrc = item.image
-    ? `data:image/jpeg;base64,${item.image}`
-    : "placeholder-image-url";
-
   return (
     <div className="menu-item-card">
       <div className="item-img-container">
-        <img src={imageSrc} alt="Menu Item" />
+        <img src={`data:image/jpeg;base64,${item.image}`} alt="Menu Item" />
       </div>
       <div className="item-info-container">
         <div className="item-name-price-container">
