@@ -5,7 +5,7 @@ import "./order-card-styles.css";
 const OrderCard = ({ order: { number, submitTime, owner, status, items, notes }}) => {
   return (
     <div className="order-card">
-      <header className="order-header">
+      <header className="order-card-header">
         <span>{`Order #${number}`}</span>
         <span>{`Time: ${submitTime}`}</span>
         <span>{`Owner: ${owner}`}</span>
@@ -13,7 +13,7 @@ const OrderCard = ({ order: { number, submitTime, owner, status, items, notes }}
       </header>
       <section className="order-items-container">
         {items.map((item, index) => (
-          <div className="order-item" key={index}>
+          <div className="order-card-item" key={index}>
             <span>{item.name}</span>
             <div className="quantity-control">
               <button 
@@ -31,7 +31,7 @@ const OrderCard = ({ order: { number, submitTime, owner, status, items, notes }}
           </div>
         ))}
       </section>
-      <footer className="order-notes">
+      <footer className="order-card-notes">
         <span>{`Notes: ${notes}`}</span>
       </footer>
     </div>
