@@ -2,13 +2,14 @@ import React from "react";
 
 import MenuItemCard from "../../Cards/MenuItemCard/MenuItemCard";
 
-import "./menu-list-styles.css";
+import "./menu-list.css";
 
-const MenuList = ({ items }) => {
+const MenuList = ({ items, isOrdering, onAddToOrder }) => {
   return (
     <section className="menu-list-container">
-      {items.map((item, index) => (
-        <MenuItemCard key={index} item={item} />
+      {items.map(item => (
+        <MenuItemCard key={item.id} item={item} isOrdering={isOrdering}
+          onAddToOrder={onAddToOrder} />
       ))}
     </section>
   );

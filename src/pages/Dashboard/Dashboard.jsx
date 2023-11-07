@@ -11,7 +11,7 @@ import ViewOrdersSection from "../../components/Sections/ViewOrdersSection/ViewO
 import NewOrderSection from "../../components/Sections/NewOrderSection/NewOrderSection";
 import PaymentsSection from "../../components/Sections/PaymentsSection/PaymentsSection";
 
-import "./dashboard-styles.css";
+import "./dashboard.css";
 
 const Dashboard = () => {
   return (

@@ -1,16 +1,16 @@
 import React from "react";
-import "./menu-item-card-styles.css";
+
+import "./menu-item-card.css";
 
 const MenuItemCard = ({ item, isOrdering, onAddToOrder }) => {
 
-  
   // Function to handle add to order on button click
   const handleAddToOrder = () => {
     if (onAddToOrder) {
       onAddToOrder(item);
     }
   };
-
+  
   return (
     <div className="menu-item-card">
       <div className="item-img-container">
@@ -19,7 +19,7 @@ const MenuItemCard = ({ item, isOrdering, onAddToOrder }) => {
       <div className="item-info-container">
         <div className="item-name-price-container">
           <h3 className="item-name">{item.name}</h3>
-          <span className="item-price">${item.price}</span>
+          <span className="item-price">{`$${item.price}`}</span>
         </div>
         <div className="item-description-container">
           <p>{item.description}</p>
@@ -27,9 +27,7 @@ const MenuItemCard = ({ item, isOrdering, onAddToOrder }) => {
       </div>
       {isOrdering && (
         <div className="order-button-container">
-          <button className="order-button" onClick={handleAddToOrder}>
-            Add
-          </button>
+          <button className="order-button" onClick={handleAddToOrder}>Add</button>
         </div>
       )}
     </div>

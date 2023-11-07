@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import "./order-card-styles.css";
+import "./order-card.css";
 
 const OrderCard = ({ order: { number, submitTime, owner, status, items, notes }}) => {
   return (
