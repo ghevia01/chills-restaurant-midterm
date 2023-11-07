@@ -22,21 +22,6 @@ function getCsrfToken() {
     ?.split('=')[1];
 }
 
-// Interceptor to handle responses
-function handleResponse(response) {
-  if (response.data.token) {
-    sessionStorage.setItem('token', response.data.token); // Ensure you're setting the token where you get it
-  }
-
-  const xsrfToken = getCsrfToken();
-
-  if (xsrfToken) {
-    response.headers['X-XSRF-TOKEN'] = xsrfToken;
-  }
-
-  return response;
-}
-
 // Interceptor to handle request configuration
 function configureRequest(config) {
   const token = getStoredToken();
@@ -49,14 +34,33 @@ function configureRequest(config) {
   config.headers['Content-Type'] = 'application/json';
 
   if (xsrfToken) {
-    config.headers['X-XSRF-TOKEN'] = xsrfToken;
+    config.headers['X-XSRF-TOKEN'] = xsrfToken; // Set CSRF token in request headers
   }
 
   return config;
 }
 
+// Interceptor to handle responses
+function handleResponse(response) {
+  // Check if a new token is provided and store it
+  if (response.data.token) {
+    sessionStorage.setItem('token', response.data.token);
+  }
+
+  return response;
+}
+
 // Apply interceptors
-API.interceptors.response.use(handleResponse, error => Promise.reject(error));
-API.interceptors.request.use(configureRequest);
+API.interceptors.request.use(configureRequest, error => Promise.reject(error));
+API.interceptors.response.use(handleResponse, error => {
+  // Handle token expiration or other global error respose
+
+  // If CSRF token is invalid or missing
+  if (error.response && error.response.status === 403 && error.response.data.includes('CSRF')) {
+    // Handle CSRF token errors
+  }
+
+  return Promise.reject(error);
+});
 
 export default API;
