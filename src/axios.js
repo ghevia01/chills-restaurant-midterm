@@ -6,12 +6,12 @@ const API = axios.create({
 });
 
 export function removeStoredToken (){
-  return localStorage.removeItem('token');
+  return sessionStorage.removeItem('token');
 }
 
 // Function to retrieve the stored token in a consistent way
 function getStoredToken() {
-  return localStorage.getItem('token'); // Use sessionStorage or localStorage consistently
+  return sessionStorage.getItem('token'); // Use sessionStorage or localStorage consistently
 }
 
 // Function to get CSRF token from cookies
@@ -25,8 +25,15 @@ function getCsrfToken() {
 // Interceptor to handle responses
 function handleResponse(response) {
   if (response.data.token) {
-    localStorage.setItem('token', response.data.token); // Ensure you're setting the token where you get it
+    sessionStorage.setItem('token', response.data.token); // Ensure you're setting the token where you get it
   }
+
+  const xsrfToken = getCsrfToken();
+
+  if (xsrfToken) {
+    response.headers['X-XSRF-TOKEN'] = xsrfToken;
+  }
+
   return response;
 }
 
