@@ -18,11 +18,13 @@ const RegisterPage = () => {
   const handleRegister = async (registerData) => {
     try {
       let newUser = {
+        employeeId: "",
         firstName: registerData.firstName,
         lastName: registerData.lastName,
         // dob: registerData.dob,
         email: registerData.email,
         password: registerData.password,
+        role: "",
       };
       // Send login data to the server.
       const { result, username } = await sendUserRegisterData(newUser);
