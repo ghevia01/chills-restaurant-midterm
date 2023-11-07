@@ -44,6 +44,7 @@ export const sendUserLoginData = async (loginFormData) => {
   }
 };
 
+
 export const sendUserRegisterData = async (registerFormData) => {
   try {
     // Send the login form data to the server
