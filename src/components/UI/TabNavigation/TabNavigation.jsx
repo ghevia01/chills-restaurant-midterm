@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import "./tab-navigation-styles.css";
+import "./tab-navigation.css";
 
 const TabNavigation = ({ tabs, onTabClick }) => {
   // State to keep track of the active tab

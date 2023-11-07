@@ -3,22 +3,23 @@
     flex-direction: row;
     width: 100%;
     height: 100%;
+    gap: 2rem;
 }
 
 .menu-wrapper {
-    flex: 1 1 75%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex: 1 1 75%;
+    height: 100%;
 }
 
 .order-tab-wrapper {
-    flex: 1 1 25%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    flex: 1 1 25%;
+    height: 100%;
 }

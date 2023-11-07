@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import InputField from "../../UI/InputField/InputField";
 import Button from "../../UI/Button/Button";
 
-import "./login-form-styles.css";
+import "./login-form.css";
 
 // -------------------------------------------------- Variables and Constants -------------------------------------------------->
 
