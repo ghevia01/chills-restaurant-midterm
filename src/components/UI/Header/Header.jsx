@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import "./header-styles.css";
+import "./header.css";
 
 const Header = () => {
   // Create a state variable for the current date/time

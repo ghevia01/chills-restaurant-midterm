@@ -2,7 +2,7 @@ import React from "react";
 
 import OrderCard from "../../Cards/OrderCard/OrderCard";
 
-import "./orders-list-styles.css";
+import "./orders-list.css";
 
 const OrdersList = ({ orders }) => {
   return (

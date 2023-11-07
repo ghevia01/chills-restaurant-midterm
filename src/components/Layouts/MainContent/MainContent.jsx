@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./main-content-styles.css";
+import "./main-content.css";
 
 const MainContent = ({ children }) => {
   return <section className="main-content-container">{children}</section>;

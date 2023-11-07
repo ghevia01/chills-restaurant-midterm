@@ -1,0 +1,7 @@
+.menu-list-container {
+    display: grid;
+    width: 100%;
+    padding-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem 0.5rem;
+}

@@ -8,7 +8,7 @@ import * as Yup from "yup";
 import InputField from "../../UI/InputField/InputField";
 import Button from "../../UI/Button/Button";
 
-import "./register-form-styles.css";
+import "./register-form.css";
 
 // -------------------------------------------------- Variables and Constants -------------------------------------------------->
 
@@ -180,7 +180,7 @@ const RegisterForm = ({ onRegisterAttempt }) => {
           className="form-btn"
           type="submit"
           name="loginBtn"
-          text="Sign in"
+          text="Create Account"
         />
 
         <ul className="aux-links-list">

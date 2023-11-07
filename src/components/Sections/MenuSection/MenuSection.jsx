@@ -6,7 +6,7 @@ import TabNavigation from "../../../components/UI/TabNavigation/TabNavigation";
 
 import { getMenuItemData } from "../../../services/foodService";
 
-import "./menu-section-styles.css";
+import "./menu-section.css";
 
 // Object to store the fetch status
 const FETCH_STATUS = {
@@ -39,7 +39,7 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
   // State to keep track of errors
   const [error, setError] = useState(null);
 
-  // Fetch menu items when the component mounts
+  // Fetch menu items when the component mounts 
   useEffect(() => {
     // Variable to keep track of whether the component is mounted or not
     let isMounted = true;

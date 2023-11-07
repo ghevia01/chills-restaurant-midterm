@@ -5,12 +5,12 @@ import { submitOrder, getOrders  } from "../../../services/OrderServices";
 import OrderTab from '../../Layouts/OrderTab/OrderTab';
 import MenuSection from '../MenuSection/MenuSection';
 
-import "./new-order-section-styles.css";
+import "./new-order-section.css";
 
 const NewOrderSection = () => {
 
     // State to store the orders
-    const [orders, setOrders] = useState([]);
+    const [orderItems, setOrderItems] = useState([]);
 
     // Function to fetch all orders on component mount
     useEffect(() => {
@@ -35,41 +35,48 @@ const NewOrderSection = () => {
 
     // Function to handle adding new items to the order
     const handleAddToOrder = (menuItem) => {
-        const existingOrder = orders.find(order => order.id === menuItem.id);
+        const existingOrder = orderItems.find(orderItem => orderItem.id === menuItem.id);
         if (existingOrder) {
-            setOrders(prevOrders =>
-                prevOrders.map(order =>
-                    order.id === menuItem.id ? { ...order, quantity: order.quantity + 1 } : order
+            setOrderItems(prevOrderItems =>
+                prevOrderItems.map(orderItem =>
+                    orderItem.id === menuItem.id ? { ...orderItem, quantity: orderItem.quantity + 1 } : orderItem
                 )
             );
         } else {
-            setOrders(prevOrders => [...prevOrders, { ...menuItem, quantity: 1 }]);
+            const newOrderItem = {
+                id: menuItem.id,
+                name: menuItem.name,
+                price: menuItem.price,
+                quantity: 1,
+            };
+
+            setOrderItems(prevOrderItems => [...prevOrderItems, newOrderItem ]);
         }
     };
 
     // Function to handle incrementing the quantity of an order
     const handleIncrement = (orderId) => {
-        setOrders(prevOrders =>
-            prevOrders.map(order =>
-                order.id === orderId ? { ...order, quantity: order.quantity + 1 } : order
+        setOrderItems(prevOrderItems =>
+            prevOrderItems.map(orderItem =>
+                orderItem.id === orderId ? { ...orderItem, quantity: orderItem.quantity + 1 } : orderItem
             )
         );
     };
 
     // Function to handle decrementing the quantity of an order
     const handleDecrement = (orderId) => {
-        setOrders(prevOrders =>
-            prevOrders
-                .map(order =>
-                    order.id === orderId ? { ...order, quantity: order.quantity - 1 } : order
+        setOrderItems(prevOrderItems =>
+            prevOrderItems
+                .map(orderItem =>
+                    orderItem.id === orderId ? { ...orderItem, quantity: orderItem.quantity - 1 } : orderItem
                 )
-                .filter(order => order.quantity > 0)
+                .filter(orderItem => orderItem.quantity > 0)
         );
     };
 
     // Function to handle clearing the orders
     const handleClearOrder = () => {
-        setOrders([]);
+        setOrderItems([]);
     };
 
     // Function to handle submit the orders
@@ -113,7 +120,7 @@ const NewOrderSection = () => {
             </div>
             <div className="order-tab-wrapper">
                 <OrderTab
-                    orders={orders}
+                    orderItems={orderItems}
                     onIncrement={handleIncrement}
                     onDecrement={handleDecrement}
                     onClearOrder={handleClearOrder}

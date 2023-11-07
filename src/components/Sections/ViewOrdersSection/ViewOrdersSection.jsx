@@ -4,7 +4,7 @@ import TabNavigation from "../../UI/TabNavigation/TabNavigation";
 import OrdersList from "../../Layouts/OrdersList/OrdersList";
 import { getOrders } from "../../../services/OrderServices";
 
-import "./view-orders-section-styles.css";
+import "./view-orders-section.css";
 
 // Array of menu tabs
 const orderTabs = [

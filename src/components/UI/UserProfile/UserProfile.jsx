@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./user-profile-styles.css";
+import "./user-profile.css";
 
 const UserProfile = ({ name, profileImg }) => {
   return (
