@@ -1,22 +1,18 @@
 import axios from 'axios';
 
 const API = axios.create({
-  // baseURL: process.env.REACT_APP_API_URL,
-  baseURL: 'https://localhost:8081',
+  baseURL: process.env.REACT_APP_API_URL,
   withCredentials: true,
 });
+
+export function removeStoredToken (){
+  return sessionStorage.removeItem('token');
+}
 
 // Function to retrieve the stored token in a consistent way
 function getStoredToken() {
   return sessionStorage.getItem('token'); // Use sessionStorage or localStorage consistently
 }
-
-// Function to retrieve the stored token in a consistent way
-export function removeStoredToken() {
-  return sessionStorage.removeItem('token'); // Use sessionStorage or localStorage consistently
-}
-
-
 
 // Function to get CSRF token from cookies
 function getCsrfToken() {

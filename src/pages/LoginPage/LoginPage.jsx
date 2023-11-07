@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
 import { sendUserLoginData } from "../../services/authService";
+import { removeStoredToken } from "../../axios";
 
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 
@@ -9,12 +10,13 @@ import "./login-page.css";
 
 const LoginPage = () => {
 
+  removeStoredToken();
+
   // Get login function from AuthProvider
   const { login } = useAuth();
 
   // Get navigate function
   const navigate = useNavigate();
-
 
   // Function to handle login
   const handleLogin = async (loginData) => {
