@@ -2,9 +2,9 @@ import React from 'react';
 
 import './order-tab.css';
 
-const OrderTab = ({ orders, onIncrement, onDecrement, onClearOrder, onSubmitOrder }) => {
+const OrderTab = ({ orderItems, onIncrement, onDecrement, onClearOrder, onSubmitOrder }) => {
 
-    const subtotal = orders.reduce((acc, order) => acc + order.price * order.quantity, 0);
+    const subtotal = orderItems.reduce((acc, orderItem) => acc + orderItem.price * orderItem.quantity, 0);
     const discount = 0;
     const taxRate = 0.115;
     const taxAmount = subtotal * taxRate;
@@ -16,7 +16,7 @@ const OrderTab = ({ orders, onIncrement, onDecrement, onClearOrder, onSubmitOrde
                 <h2>Order</h2>
             </header>
             <div className="order-list">
-                {orders.map(order => (
+                {orderItems.map(order => (
                     <div key={order.id} className="order-container">
                         <div className="order-item">
                             <div className="order-item-name">
