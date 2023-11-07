@@ -1,10 +1,11 @@
 import React from 'react';
 
-import './order-tab-styles.css';
+import './order-tab.css';
 
 const OrderTab = ({ orders, onIncrement, onDecrement, onClearOrder, onSubmitOrder }) => {
 
     const subtotal = orders.reduce((acc, order) => acc + order.price * order.quantity, 0);
+    const discount = 0;
     const taxRate = 0.115;
     const taxAmount = subtotal * taxRate;
     const total = subtotal + taxAmount;
@@ -42,6 +43,10 @@ const OrderTab = ({ orders, onIncrement, onDecrement, onClearOrder, onSubmitOrde
                 <div className="summary-item">
                     <h4>Subtotal</h4>
                     <span>${subtotal.toFixed(2)}</span>
+                </div>
+                <div className="summary-item">
+                    <h4>Discount</h4>
+                    <span>${discount.toFixed(2)}</span>
                 </div>
                 <div className="summary-item">
                     <h4>Tax (11.5%)</h4>
