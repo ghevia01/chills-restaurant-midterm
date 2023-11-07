@@ -27,6 +27,13 @@ function handleResponse(response) {
   if (response.data.token) {
     sessionStorage.setItem('token', response.data.token); // Ensure you're setting the token where you get it
   }
+
+  const xsrfToken = getCsrfToken();
+
+  if (xsrfToken) {
+    response.headers['X-XSRF-TOKEN'] = xsrfToken;
+  }
+
   return response;
 }
 
