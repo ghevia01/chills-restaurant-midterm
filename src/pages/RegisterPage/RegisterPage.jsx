@@ -9,7 +9,6 @@ import "../RegisterPage/register-page.css";
 
 const RegisterPage = () => {
   // Get login function from AuthProvider
-  const { register } = useAuth();
 
   // Get navigate function
   const navigate = useNavigate();
@@ -30,7 +29,8 @@ const RegisterPage = () => {
       const { result, username } = await sendUserRegisterData(newUser);
 
       // If response is successful, navigate to login page.
-      if (response.result === "success") {
+      if (result === "success") {
+        console.log(username);
         navigate("/login", { replace: true });
         return true;
       }
