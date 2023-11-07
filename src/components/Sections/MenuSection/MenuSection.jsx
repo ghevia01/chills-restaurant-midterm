@@ -44,19 +44,20 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
     // Variable to keep track of whether the component is mounted or not
     let isMounted = true;
 
-    setFetchStatus(FETCH_STATUS.PENDING);
-
+    // Function to fetch the menu items
     const fetchData = async () => {
+      setFetchStatus(FETCH_STATUS.PENDING);
+
       try {
         // Call the getMenuItemData function from the foodService module
-        const { result, data, message } = await getMenuItemData();
+        const { result, data: fetchedMenuItems, message } = await getMenuItemData();
 
         // If the component is not mounted, do not update the state
         if (!isMounted) return;
 
         // If the result is success, update the menuItems state and fetchStatus state
         if (result === "success") {
-          setMenuItems(data);
+          setMenuItems(fetchedMenuItems);
           setFetchStatus(FETCH_STATUS.SUCCESS);
         } else {
           // If the result is not success, set the error state and fetchStatus state
@@ -65,7 +66,9 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
         }
       } catch (err) {
         if (!isMounted) return;
-        setError(err.message);
+
+        // Set the error state and fetchStatus state
+        setError(err.message || 'Failed to fetch menu items.');
         setFetchStatus(FETCH_STATUS.ERROR);
       }
     };
@@ -98,22 +101,27 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
       : menuItems.filter((item) => item.category === selectedTab);
   }, [selectedTab, menuItems]);
 
+  // Early return for pending state
+  if (fetchStatus === FETCH_STATUS.PENDING) {
+    return <p>Loading...</p>;
+  }
+
+  // Early return for error state
+  if (fetchStatus === FETCH_STATUS.ERROR) {
+    return <p>{error}</p>;
+  }
+
   return (
     <section className="menu-section">
-      {fetchStatus === FETCH_STATUS.PENDING && <p>Loading menu items...</p>}
-      {fetchStatus === FETCH_STATUS.ERROR && <p>Error fetching menu items: {error}</p>}
-      {fetchStatus === FETCH_STATUS.SUCCESS && (
-        <>
-          <TabNavigation tabs={menuTabs} onTabClick={handleTabClick} />
-          <Searchbar />
-          <div className="category-text-container">
-            <h2>
-              Category: <span className="category-text">{selectedTab}</span>
-            </h2>
-          </div>
-          <MenuList items={filteredItems} isOrdering={isOrdering} onAddToOrder={onAddToOrder} />
-        </>
-      )}
+      <TabNavigation tabs={menuTabs} onTabClick={handleTabClick} />
+      <Searchbar />
+      <div className="category-text-container">
+        <h2>
+          Category: <span className="category-text">{selectedTab}</span>
+        </h2>
+      </div>
+      <MenuList items={filteredItems} isOrdering={isOrdering} onAddToOrder={onAddToOrder} />
+
     </section>
   );
 };
