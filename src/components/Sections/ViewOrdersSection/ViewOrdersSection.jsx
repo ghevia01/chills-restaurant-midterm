@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 import TabNavigation from "../../UI/TabNavigation/TabNavigation";
 import OrdersList from "../../Layouts/OrdersList/OrdersList";
-import { getOrders } from "../../../services/OrderServices";
+
+import { getOrders } from "../../../services/orderServices";
 
 import "./view-orders-section.css";
+
+// Object to store the fetch status
+const FETCH_STATUS = {
+  PENDING: 'pending',
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
 
 // Array of menu tabs
 const orderTabs = [
@@ -16,39 +24,60 @@ const orderTabs = [
   "Canceled",
 ];
 
-
 const ViewOrdersSection = () => {
+
+  // State to keep track of the fetch status
+  const [fetchStatus, setFetchStatus] = useState(FETCH_STATUS.PENDING);
+
   // State to keep track of the selected tab
   const [selectedTab, setSelectedTab] = useState(orderTabs[0]);
 
-   // State to keep track of the selected tab and orders
-   const [orders, setOrders] = useState([]); // Initialize orders as an empty array
-   const [isLoading, setIsLoading] = useState(true); // Track loading state
-   const [error, setError] = useState(null); // Track error state
+  // State to store fetched orders
+  const [orders, setOrders] = useState([]);
 
-   useEffect(() => {
+  // State to keep track of errors
+  const [error, setError] = useState(null);
+
+  // Fetch menu items when the component mounts 
+  useEffect(() => {
+    // Variable to keep track of whether the component is mounted or not
+    let isMounted = true;
+
+    setFetchStatus(FETCH_STATUS.PENDING);
+
+    // Function to fetch the orders
     const fetchOrders = async () => {
-      setIsLoading(true);
+      setFetchStatus(FETCH_STATUS.PENDING);
+
       try {
-        const fetchedOrders = await getOrders();
-        // Assuming that `getOrders` returns an object with an `orders` array
-        if (fetchedOrders && fetchedOrders.orders && fetchedOrders.orders.length > 0) {
+        // Call the getOrders function from the orderServices module
+        const { result, data: fetchedOrders, message } = await getOrders();
+
+        // If the component is not mounted, do not update the state
+        if (!isMounted) return;
+
+        // If the result is success, update the orders state and fetchStatus state
+        if (result === "success" && fetchedOrders && fetchedOrders.length > 0) {
           setOrders(fetchedOrders.orders);
+          setFetchStatus(FETCH_STATUS.SUCCESS);
         } else {
-          // Handle the empty orders case
-          setOrders([]);
-          setError('No orders found.');
+          // If the result is not success, set the error state and fetchStatus state
+          setError(message || 'No orders found.');
+          setFetchStatus(FETCH_STATUS.ERROR);
         }
-        setIsLoading(false);
       } catch (err) {
-        // If an error occurs, you would want to log or handle it here
+        if (!isMounted) return;
+
+        // Set the error state and fetchStatus state
         setError(err.message || 'Failed to fetch orders.');
-        setIsLoading(false);
+        setFetchStatus(FETCH_STATUS.ERROR);
       }
     };
-  
+
     fetchOrders();
-    // The empty dependency array means this effect will only run once on component mount
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   // Function to handle the tab click
@@ -57,25 +86,29 @@ const ViewOrdersSection = () => {
   };
 
   // Filter the items based on the selected tab
-  const filteredOrders =
-    selectedTab === "All"
-      ? [orders].sort((a, b) => {
-          // Get the index of the categories in the menuTabs array
-          const indexA = orderTabs.indexOf(a.status);
-          const indexB = orderTabs.indexOf(b.status);
+  const filteredOrders = useMemo(() => {
+    return selectedTab === "All"
+      ? orders.sort((a, b) => {
+        // Get the index of the categories in the menuTabs array
+        const indexA = orderTabs.indexOf(a.status);
+        const indexB = orderTabs.indexOf(b.status);
 
-          // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
-          return indexA - indexB;
-        })
+        // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
+        return indexA - indexB;
+      })
       : orders.filter((order) => order.status === selectedTab);
+  }, [orders, selectedTab]);
 
-      if (isLoading) {
-        return <div>Loading...</div>; // Or some loading indicator
-      }
-    
-      if (error) {
-        return <div>Error: {error}</div>; // Render error message
-      }
+  // Early return for pending state
+  if (fetchStatus === FETCH_STATUS.PENDING) {
+    return <div>Loading...</div>;
+  }
+
+  // Early return for error state
+  if (fetchStatus === FETCH_STATUS.ERROR) {
+    return <div>Error: {error}</div>;
+  }
+  
   return (
     <section className="orders-section">
       {/* Pass the menuTabs array to the TabNavigation componentca and handle the tab click */}
@@ -85,6 +118,7 @@ const ViewOrdersSection = () => {
           Category: <span className="category-text">{selectedTab}</span>
         </h2>
       </div>
+      {/* Pass the filteredItems array to the MenuItemsList component */}
       <OrdersList orders={filteredOrders} />
     </section>
   );
