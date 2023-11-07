@@ -180,7 +180,7 @@ const RegisterForm = ({ onRegisterAttempt }) => {
           className="form-btn"
           type="submit"
           name="loginBtn"
-          text="Sign in"
+          text="Create Account"
         />
 
         <ul className="aux-links-list">
