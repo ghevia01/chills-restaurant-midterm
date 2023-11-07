@@ -8,7 +8,6 @@ export const sendUserLoginData = async (loginFormData) => {
     const response = await API.post("/api/auth/signin/employee", loginFormData);
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
-      console.log(response);
       return {
         result: "success",
         data: response.data,

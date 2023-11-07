@@ -26,22 +26,30 @@ const ViewOrdersSection = () => {
    const [isLoading, setIsLoading] = useState(true); // Track loading state
    const [error, setError] = useState(null); // Track error state
 
-    // Effect to fetch orders from the OrderService
-  useEffect(() => {
+   useEffect(() => {
     const fetchOrders = async () => {
       setIsLoading(true);
       try {
         const fetchedOrders = await getOrders();
-        setOrders(fetchedOrders);
+        // Assuming that `getOrders` returns an object with an `orders` array
+        if (fetchedOrders && fetchedOrders.orders && fetchedOrders.orders.length > 0) {
+          setOrders(fetchedOrders.orders);
+        } else {
+          // Handle the empty orders case
+          setOrders([]);
+          setError('No orders found.');
+        }
         setIsLoading(false);
       } catch (err) {
-        setError(err.message);
+        // If an error occurs, you would want to log or handle it here
+        setError(err.message || 'Failed to fetch orders.');
         setIsLoading(false);
       }
     };
-
+  
     fetchOrders();
-  }, []); 
+    // The empty dependency array means this effect will only run once on component mount
+  }, []);
 
   // Function to handle the tab click
   const handleTabClick = (tab) => {

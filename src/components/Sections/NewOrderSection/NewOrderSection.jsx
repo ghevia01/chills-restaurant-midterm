@@ -18,7 +18,7 @@ const NewOrderSection = () => {
             try {
                 const response = await getOrders();
                 if (response.result === 'success') {
-                    setOrders(response.orders); // Set the orders state with fetched orders
+                    setOrderItems(response.orders); // Set the orders state with fetched orders
                 } else {
                     // Handle failure (e.g., show an error message to the user)
                     console.error('Failed to load orders', response.message);
@@ -77,16 +77,15 @@ const NewOrderSection = () => {
             // Create the order object to be sent to the backend.
             // This should match the expected structure of your API.
             const newOrder = {
-                number: "", // Implement this function to generate an order number
-                submitTime: "", // ISO string of the current time
+                submitTime:new Date().toISOString(), // ISO string of the current time
                 customer: {
                     id: 1 // Replace with actual customer ID
                 },
                 status: "PENDING", // 
-                menuItems: orders.map(order => ({ 
-                    id: order.id,
-                    quantity: order.quantity,
-                    notes: order.notes || "" 
+                menuItems: orderItems.map(item => ({ 
+                    id: item.id,
+                    quantity: item.quantity,
+                    notes: item.notes || "" 
                 })),
                 details: "Some notes here", // You should get this from the user input
             };
@@ -95,7 +94,7 @@ const NewOrderSection = () => {
                 // Use the submitOrder service to send the POST request
                 const response = await submitOrder(newOrder);
                 if (response.result === 'success') {
-                    setOrders([response.orders]); // Clear the orders state after successful submission
+                    setOrderItems([response.orders]); // Clear the orders state after successful submission
                 } else {
                     // Handle failure (e.g., show an error message to the user)
                     console.error('Failed to submit order', response.message);
