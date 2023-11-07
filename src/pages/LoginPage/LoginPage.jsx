@@ -5,7 +5,7 @@ import { sendUserLoginData } from "../../services/authService";
 
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 
-import "./login-page-styles.css";
+import "./login-page.css";
 
 const LoginPage = () => {
 

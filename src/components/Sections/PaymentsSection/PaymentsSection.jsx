@@ -1,6 +1,6 @@
 import React from "react";
 
-import "./payments-section-styles.css";
+import "./payments-section.css";
 
 const PaymentSection = () => {
   return (

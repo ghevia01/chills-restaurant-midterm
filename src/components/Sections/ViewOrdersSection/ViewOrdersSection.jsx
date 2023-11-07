@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import TabNavigation from "../../UI/TabNavigation/TabNavigation";
 import OrdersList from "../../Layouts/OrdersList/OrdersList";
 
-import "./view-orders-section-styles.css";
+import "./view-orders-section.css";
 
 // Array of menu tabs
 const orderTabs = [

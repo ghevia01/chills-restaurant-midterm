@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import MenuSection from '../MenuSection/MenuSection';
 import OrderTab from '../../Layouts/OrderTab/OrderTab';
 
-import "./new-order-section-styles.css";
+import "./new-order-section.css";
 
 const NewOrderSection = () => {
 
