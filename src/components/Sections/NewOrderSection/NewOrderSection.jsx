@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import MenuSection from '../MenuSection/MenuSection';
+import { submitOrder, getOrders  } from "../../../services/OrderServices";
+
 import OrderTab from '../../Layouts/OrderTab/OrderTab';
+import MenuSection from '../MenuSection/MenuSection';
 
 import "./new-order-section.css";
 
@@ -9,6 +11,27 @@ const NewOrderSection = () => {
 
     // State to store the orders
     const [orderItems, setOrderItems] = useState([]);
+
+    // Function to fetch all orders on component mount
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const response = await getOrders();
+                if (response.result === 'success') {
+                    setOrders(response.orders); // Set the orders state with fetched orders
+                } else {
+                    // Handle failure (e.g., show an error message to the user)
+                    console.error('Failed to load orders', response.message);
+                }
+            } catch (error) {
+                // Handle errors that occur during the request (e.g., network errors)
+                console.error('Error loading orders:', error);
+            }
+        };
+
+        fetchOrders();
+    }, []); // Empty dependency array to run only once on component mount
+
 
     // Function to handle adding new items to the order
     const handleAddToOrder = (menuItem) => {
@@ -56,11 +79,40 @@ const NewOrderSection = () => {
         setOrderItems([]);
     };
 
-    // Function to handle clearing the orders
-    const handleSubmitOrder = () => {
+    // Function to handle submit the orders
+        const handleSubmitOrder = async () => {
+            // Create the order object to be sent to the backend.
+            // This should match the expected structure of your API.
+            const newOrder = {
+                number: "", // Implement this function to generate an order number
+                submitTime: "", // ISO string of the current time
+                customer: {
+                    id: 1 // Replace with actual customer ID
+                },
+                status: "PENDING", // 
+                menuItems: orders.map(order => ({ 
+                    id: order.id,
+                    quantity: order.quantity,
+                    notes: order.notes || "" 
+                })),
+                details: "Some notes here", // You should get this from the user input
+            };
+    
+            try {
+                // Use the submitOrder service to send the POST request
+                const response = await submitOrder(newOrder);
+                if (response.result === 'success') {
+                    setOrders([response.orders]); // Clear the orders state after successful submission
+                } else {
+                    // Handle failure (e.g., show an error message to the user)
+                    console.error('Failed to submit order', response.message);
+                }
+            } catch (error) {
+                // Handle errors that occur during the request (e.g., network errors)
+                console.error('Error submitting order:', error);
+            }
+        };
 
-        setOrderItems([]);
-    };
 
     return (
         <section className="create-orders-section">
