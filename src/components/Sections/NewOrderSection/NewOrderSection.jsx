@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
-import { submitOrder, getOrders  } from "../../../services/OrderServices";
+import { submitOrder } from "../../../services/OrderServices";
 
 import OrderTab from '../../Layouts/OrderTab/OrderTab';
 import MenuSection from '../MenuSection/MenuSection';
@@ -11,27 +11,6 @@ const NewOrderSection = () => {
 
     // State to store the orders
     const [orderItems, setOrderItems] = useState([]);
-
-    // Function to fetch all orders on component mount
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const response = await getOrders();
-                if (response.result === 'success') {
-                    setOrderItems(response.orders); // Set the orders state with fetched orders
-                } else {
-                    // Handle failure (e.g., show an error message to the user)
-                    console.error('Failed to load orders', response.message);
-                }
-            } catch (error) {
-                // Handle errors that occur during the request (e.g., network errors)
-                console.error('Error loading orders:', error);
-            }
-        };
-
-        fetchOrders();
-    }, []); // Empty dependency array to run only once on component mount
-
 
     // Function to handle adding new items to the order
     const handleAddToOrder = (menuItem) => {
@@ -101,7 +80,7 @@ const NewOrderSection = () => {
                 // Use the submitOrder service to send the POST request
                 const response = await submitOrder(newOrder);
                 if (response.result === 'success') {
-                    setOrderItems([response.orders]); // Clear the orders state after successful submission
+                    setOrderItems([response.data]); // Clear the orders state after successful submission
                 } else {
                     // Handle failure (e.g., show an error message to the user)
                     console.error('Failed to submit order', response.message);

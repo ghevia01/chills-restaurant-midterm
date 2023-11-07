@@ -55,12 +55,12 @@ export const submitOrder = async (newOrder) => {
       return {
         result: "error",
         data: null,
-        message: errorMessage || "An error occurred while getting Menu Items",
+        message: errorMessage || "An error occurred while getting Submitting Order",
       };
     }
   } catch (error) {
     // Log the error
-    console.error("Error in getMensubmitOrderuItemData:", error.message);
+    console.error("Error in submitOrder:", error.message);
 
     // If the server sends back an error response, it might be available in error.response.data
     const serverMessage =

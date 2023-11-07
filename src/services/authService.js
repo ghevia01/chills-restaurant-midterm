@@ -53,7 +53,7 @@ export const sendUserRegisterData = async (registerFormData) => {
       console.log(response);
       return {
         result: "success",
-        username: response.data,
+        data: response.data,
         message: null,
       };
     } else {
