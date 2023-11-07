@@ -30,9 +30,9 @@ const OrderTab = ({ orders, onIncrement, onDecrement, onClearOrder, onSubmitOrde
                                 ${order.price.toFixed(2)}
                             </div>
                         </div>
-                        {order.details && (
+                        {order.notes && (
                             <div className="order-item-details">
-                                <p>{order.details}</p>
+                                <p>{order.notes}</p>
                             </div>
                         )}
                     </div>
