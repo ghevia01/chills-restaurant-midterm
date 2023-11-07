@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import { submitOrder } from "../../../services/OrderServices";
-
 import OrderTab from '../../Layouts/OrderTab/OrderTab';
 import MenuSection from '../MenuSection/MenuSection';
+
+import { submitOrder } from "../../../services/orderServices";
 
 import "./new-order-section.css";
 

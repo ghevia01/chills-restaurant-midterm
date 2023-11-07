@@ -8,7 +8,7 @@ export const getOrders = async () => {
     if (response.status >= 200 && response.status < 300) {
       return {
         result: "success",
-        orders: response.data,
+        data: response.data,
         message: null,
       };
     } else {
@@ -31,7 +31,7 @@ export const getOrders = async () => {
     // Return the error message
     return {
       result: "error",
-      orders: null,
+      data: null,
       message:
         serverMessage || `An unexpected error occurred: ${error.message}`,
     };
@@ -46,7 +46,7 @@ export const submitOrder = async (newOrder) => {
     if (response.status >= 200 && response.status < 300) {
       return {
         result: "success",
-        orders: response.data,
+        data: response.data,
         message: null,
       };
     } else {
