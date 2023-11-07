@@ -3,8 +3,6 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import Header from "../../components/UI/Header/Header";
 import SidebarSection from "../../components/Sections/SidebarSection/SidebarSection";
-import UserProfile from "../../components/UI/UserProfile/UserProfile";
-import SidebarNav from "../../components/UI/SidebarNav/SidebarNav";
 import MainContent from "../../components/Layouts/MainContent/MainContent";
 import MenuSection from "../../components/Sections/MenuSection/MenuSection";
 import ViewOrdersSection from "../../components/Sections/ViewOrdersSection/ViewOrdersSection";
@@ -16,13 +14,7 @@ import "./dashboard.css";
 const Dashboard = () => {
   return (
     <div className="dashboard-container">
-      <SidebarSection>
-        <UserProfile
-          name="John"
-          profileImg="https://randomuser.me/api/portraits/men/1.jpg"
-        />
-        <SidebarNav />
-      </SidebarSection>
+      <SidebarSection />
       <div className="main-wrapper">
         <Header />
         <MainContent>
