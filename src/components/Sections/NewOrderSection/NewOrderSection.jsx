@@ -91,7 +91,6 @@ const NewOrderSection = () => {
             }
         };
 
-
     return (
         <section className="create-orders-section">
             <div className="menu-wrapper">
