@@ -6,7 +6,7 @@ import OrdersList from "../../Layouts/OrdersList/OrdersList";
 
 import { API_FETCH_STATUS } from "../../../constants/apiFetchStatus";
 import { orderTabs } from "../../../constants/orderTabs";
-import { sortByIndex as sortByStatus, sortByName } from "../../../utils/sortingFunctions";
+import { sortByIndex as sortByStatus } from "../../../utils/sortingFunctions";
 import { getOrders } from "../../../services/orderServices";
 
 import "./view-orders-section.css";
@@ -35,20 +35,13 @@ const ViewOrdersSection = () => {
   };
 
   // Filter the items based on the selected tab
-  const filteredOrders = () => {
-    let filtered = selectedTab === "All"
-      ? [...orders]
-      : orders.filter((order) => order.status === selectedTab)
+  const filteredOrders = selectedTab === "All"
+    ? [...orders]
+    : orders.filter((order) => order.status === selectedTab)
 
-    // Sort the items by status if the selected tab is "All"
-    if (selectedTab === "All") {
-      filtered.sort(sortByStatus(orderTabs));
-    }
-
-    // Sort the items by name
-    filtered.sort(sortByName);
-
-    return filtered;
+  // Sort the items by status if the selected tab is "All"
+  if (selectedTab === "All") {
+    filteredOrders.sort(sortByStatus(orderTabs));
   }
 
   // Early return for pending state
