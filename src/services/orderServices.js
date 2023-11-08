@@ -55,7 +55,7 @@ export const submitOrder = async (newOrder) => {
       return {
         result: "error",
         data: null,
-        message: errorMessage || "An error occurred while getting Submitting Order",
+        message: errorMessage || "An error occurred while Submitting Orders",
       };
     }
   } catch (error) {
@@ -75,3 +75,4 @@ export const submitOrder = async (newOrder) => {
     };
   }
 };
+
