@@ -4,11 +4,11 @@ import MenuItemCard from "../../Cards/MenuItemCard/MenuItemCard";
 
 import "./menu-list.css";
 
-const MenuList = ({ items, isOrdering, onAddToOrder }) => {
+const MenuList = ({ menuItems, isOrdering, onAddToOrder }) => {
   return (
     <section className="menu-list-container">
-      {items.map(item => (
-        <MenuItemCard key={item.id} item={item} isOrdering={isOrdering}
+      {menuItems.map(menuItem => (
+        <MenuItemCard key={menuItem.id} item={menuItem} isOrdering={isOrdering}
           onAddToOrder={onAddToOrder} />
       ))}
     </section>
