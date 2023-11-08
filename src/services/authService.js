@@ -1,9 +1,8 @@
-import API, { removeStoredToken } from "../axios";
+import API from "../axios";
 
 // Send --POST-- request to the server with the login form data
 export const sendUserLoginData = async (loginFormData) => {
   try {
-    removeStoredToken();
     // Send the login form data to the server
     const response = await API.post("/api/auth/signin/employee", loginFormData);
     // Check if the response is ok

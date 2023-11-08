@@ -65,7 +65,7 @@ const NewOrderSection = () => {
             const newOrder = {
                 submitTime:new Date().toISOString(), // ISO string of the current time
                 customer: {
-                    id: 1 // Replace with actual customer ID
+                    id: 2 // Replace with actual customer ID
                 },
                 status: "PENDING", // 
                 menuItems: orderItems.map(item => ({ 
@@ -80,7 +80,7 @@ const NewOrderSection = () => {
                 // Use the submitOrder service to send the POST request
                 const response = await submitOrder(newOrder);
                 if (response.result === 'success') {
-                    setOrderItems([response.data]); // Clear the orders state after successful submission
+                    console.log("Order Submitteed!");
                 } else {
                     // Handle failure (e.g., show an error message to the user)
                     console.error('Failed to submit order', response.message);
