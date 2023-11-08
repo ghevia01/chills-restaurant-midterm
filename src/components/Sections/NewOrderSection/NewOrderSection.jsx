@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from "react-router-dom";
 
 import OrderTab from '../../Layouts/OrderTab/OrderTab';
 import MenuSection from '../MenuSection/MenuSection';
@@ -11,6 +12,7 @@ const NewOrderSection = () => {
 
     // State to store the orders
     const [orderItems, setOrderItems] = useState([]);
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
 
     // Function to handle adding new items to the order
     const handleAddToOrder = (menuItem) => {
@@ -81,6 +83,7 @@ const NewOrderSection = () => {
                 const response = await submitOrder(newOrder);
                 if (response.result === 'success') {
                     console.log("Order Submitteed!");
+                    navigate("/dashboard", { replace: true });
                 } else {
                     // Handle failure (e.g., show an error message to the user)
                     console.error('Failed to submit order', response.message);
