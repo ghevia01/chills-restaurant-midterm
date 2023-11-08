@@ -36,21 +36,17 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
   };
 
   // Filter the items based on the selected tab
-  const filteredItems = () => {
-    let filtered = selectedTab === "All"
-      ? [...menuItems]
-      : menuItems.filter(item => item.category === selectedTab);
+  const filteredItems = selectedTab === "All"
+    ? [...menuItems]
+    : menuItems.filter(item => item.category === selectedTab);
 
-    // Sort the items by category if the selected tab is "All"
-    if (selectedTab === "All") {
-      filtered.sort(sortByCategory(menuTabs));
-    }
-    
-    // Sort the items by name
-    filtered.sort(sortByName);
+  // Sort the items by category if the selected tab is "All"
+  if (selectedTab === "All") {
+    filteredItems.sort(sortByCategory(menuTabs));
+  }
 
-    return filtered;
-  };
+  // Sort the items by name
+  filteredItems.sort(sortByName);
 
   // Early return for pending state
   if (fetchStatus === API_FETCH_STATUS.PENDING) {
