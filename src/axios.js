@@ -2,19 +2,10 @@ import axios from 'axios';
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
-  withCredentials: true,
+  withCredentials: true, // Important for sending cookies with each request
 });
 
-export function removeStoredToken (){
-  return sessionStorage.removeItem('token');
-}
-
-// Function to retrieve the stored token in a consistent way
-function getStoredToken() {
-  return sessionStorage.getItem('token'); // Use sessionStorage or localStorage consistently
-}
-
-// Function to get CSRF token from cookies
+// Function to retrieve the CSRF token from cookies
 function getCsrfToken() {
   return document.cookie
     .split('; ')
@@ -23,14 +14,11 @@ function getCsrfToken() {
 }
 
 // Interceptor to handle request configuration
-function configureRequest(config) {
-  const token = getStoredToken();
+API.interceptors.request.use((config) => {
   const xsrfToken = getCsrfToken();
 
-  if (token) {
-    config.headers['Authorization'] = `Bearer ${token}`; // Include Bearer scheme
-  }
-
+  // Assuming the token is now set in an HttpOnly cookie, no need to set it manually here
+  // If you have non-HttpOnly cookies or other headers to set, do it here
   config.headers['Content-Type'] = 'application/json';
 
   if (xsrfToken) {
@@ -38,22 +26,15 @@ function configureRequest(config) {
   }
 
   return config;
-}
+}, error => Promise.reject(error));
 
-// Interceptor to handle responses
-function handleResponse(response) {
-  // Check if a new token is provided and store it
-  if (response.data.token) {
-    sessionStorage.setItem('token', response.data.token);
-  }
+// Optional: You might keep the response interceptor if you need to handle global response logic
+API.interceptors.response.use((response) => {
+  // Any global response handling goes here
 
   return response;
-}
-
-// Apply interceptors
-API.interceptors.request.use(configureRequest, error => Promise.reject(error));
-API.interceptors.response.use(handleResponse, error => {
-  // Handle token expiration or other global error respose
+}, (error) => {
+  // Handle token expiration or other global error responses
 
   // If CSRF token is invalid or missing
   if (error.response && error.response.status === 403 && error.response.data.includes('CSRF')) {
