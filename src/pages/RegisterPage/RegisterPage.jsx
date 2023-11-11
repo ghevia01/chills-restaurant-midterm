@@ -45,7 +45,10 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
-      <RegisterForm onRegisterAttempt={handleRegister} />
+      <div className="register-logo-image"></div>
+      <main>
+        <RegisterForm onLoginAttempt={handleRegister} />
+      </main>
     </div>
   );
 };
