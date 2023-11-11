@@ -38,6 +38,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
+      <div className="login-logo-image"></div>
       <main>
         <LoginForm onLoginAttempt={handleLogin} />
       </main>
