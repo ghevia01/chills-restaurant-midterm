@@ -4,9 +4,9 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 
-import "./input-field.css";
+import "./form-field.css";
 
-const InputField = ({
+const FormField = ({
   className,
   label,
   type,
@@ -31,7 +31,7 @@ const InputField = ({
         {label}
       </label>
 
-      <div className="input-wrapper">
+      <div className="field-wrapper">
         <input
           className={`field ${className}`}
           type={isPasswordVisible ? type : "text"}
@@ -63,7 +63,7 @@ const InputField = ({
   );
 };
 
-InputField.defaultProps = {
+FormField.defaultProps = {
   className: '',
   label: '',
   type: 'text',
@@ -75,7 +75,7 @@ InputField.defaultProps = {
   errors: {},
 };
 
-InputField.propTypes = {
+FormField.propTypes = {
   className: PropTypes.string,
   label: PropTypes.string,
   type: PropTypes.string.isRequired,
@@ -91,4 +91,4 @@ InputField.propTypes = {
   }),
 };
 
-export default InputField;
+export default FormField;
