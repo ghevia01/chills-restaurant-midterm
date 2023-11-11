@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import InputField from "../../UI/InputField/InputField";
-import Button from "../../UI/Button/Button";
+import FormField from "../../UI/FormField/FormField";
+import FormButton from "../../UI/FormButton/FormButton";
 
 import "./login-form.css";
 
@@ -51,48 +51,45 @@ const LoginForm = ({ onLoginAttempt }) => {
   return (
     <div className="login-form">
       <header className="login-header">
-        <h1>Sign in</h1>
+        <h1>Welcome back!</h1>
       </header>
-      <div className="section-divider"></div>
       <form
         onSubmit={formik.handleSubmit}
       >
-        <InputField
-          label="Employee ID"
+        <FormField
+          label="Employee Id"
           type="text"
           name="employeeId"
           value={formik.values.employeeId}
           onChange={formik.handleChange}
-          placeholder="Enter employee ID"
-          aria-label="Enter employee ID"
+          aria-label="Enter employee Id"
           errors={formik.errors}
           touched={formik.touched}
         />
 
-        <InputField
+        <FormField
           label="Password"
           type="password"
           name="password"
           value={formik.values.password}
           onChange={formik.handleChange}
-          placeholder="Enter password"
           aria-label="Enter password"
           errors={formik.errors}
           touched={formik.touched}
         />
 
-        <Button
+        <FormButton
           className="form-btn"
           type="submit"
           name="loginBtn"
           text="Sign in"
         />
 
-        <ul className="aux-links-list">
+        <ul className="login-aux-links">
           <li className="register-text">
             {`Don't have an account yet? `}
             <Link to="/register" className="link">
-              Sign up!
+              Sign up
             </Link>
           </li>
 
