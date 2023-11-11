@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./button.css";
+import "./form-button.css";
 
-const Button = ({ className, name, type, onClick, text }) => {
+const FormButton = ({ className, name, type, onClick, text }) => {
   return (
     <button
       className={`button ${className}`}
@@ -16,7 +16,7 @@ const Button = ({ className, name, type, onClick, text }) => {
   );
 };
 
-Button.defaultProps = {
+FormButton.defaultProps = {
   className: "",
   name: "",
   type: "button",
@@ -24,7 +24,7 @@ Button.defaultProps = {
   onClick: () => {},
 };
 
-Button.propTypes = {
+FormButton.propTypes = {
   className: PropTypes.string,
   name: PropTypes.string,
   type: PropTypes.string,
@@ -32,4 +32,4 @@ Button.propTypes = {
   onClick: PropTypes.func,
 };
 
-export default Button;
+export default FormButton;
