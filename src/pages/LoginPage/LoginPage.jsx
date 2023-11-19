@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthProvider";
 import { sendUserLoginData } from "../../services/authService";
+import logoImg from "../../assets/chillsrestaurant-no-background.jpeg"
 
 import LoginForm from "../../components/Forms/LoginForm/LoginForm";
 
@@ -38,7 +39,12 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
-      <div className="login-logo-image"></div>
+      <div className="login-logo">
+        <img
+          src={logoImg}
+          alt="Logo"
+        />
+      </div>
       <main>
         <LoginForm onLoginAttempt={handleLogin} />
       </main>
