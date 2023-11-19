@@ -11,23 +11,38 @@ import { getOrders } from "../../../services/orderServices";
 
 import "./view-orders-section.css";
 
+const fetchedOrders = [
+  {
+    number: 1, 
+    submitTime: "2:00 PM",
+    owner: "John Doe", 
+    status: "Pending", 
+    items: [
+      { name: "Hamburger", quantity: 1 },
+      { name: "Fries", quantity: 1 },
+      { name: "Coke", quantity: 1 },
+    ], 
+    notes: "No onions on the burger.",
+  },
+];
+
 const ViewOrdersSection = () => {
 
   // Hook to fetch menu items, returns an object with the fetch status, fetched data and error
-  const { data: fetchedOrders, fetchStatus, error } = useFetchData(getOrders);
+  // const { data: fetchedOrders, fetchStatus, error } = useFetchData(getOrders);
 
   // State to keep track of the selected tab
   const [selectedTab, setSelectedTab] = useState(orderTabs[0]);
 
   // State to store fetched orders
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(fetchedOrders);
 
   // Update the menuItems state when the fetchedMenuItems state changes
-  useEffect(() => {
-    if (fetchStatus === API_FETCH_STATUS.SUCCESS) {
-      setOrders(fetchedOrders);
-    }
-  }, [fetchedOrders, fetchStatus]);
+  // useEffect(() => {
+  //   if (fetchStatus === API_FETCH_STATUS.SUCCESS) {
+  //     setOrders(fetchedOrders);
+  //   }
+  // }, [fetchedOrders, fetchStatus]);
 
   // Function to handle the tab click
   const handleTabClick = (tab) => {
@@ -45,14 +60,14 @@ const ViewOrdersSection = () => {
   }
 
   // Early return for pending state
-  if (fetchStatus === API_FETCH_STATUS.PENDING) {
-    return <div>Loading...</div>;
-  }
+  // if (fetchStatus === API_FETCH_STATUS.PENDING) {
+  //   return <div>Loading...</div>;
+  // }
 
   // Early return for error state
-  if (fetchStatus === API_FETCH_STATUS.ERROR) {
-    return <div>Error: {error}</div>;
-  }
+  // if (fetchStatus === API_FETCH_STATUS.ERROR) {
+  //   return <div>Error: {error}</div>;
+  // }
 
   return (
     <section className="orders-section">
