@@ -13,21 +13,32 @@ import "./view-orders-section.css";
 
 const fetchedOrders = [
   {
-    number: 1, 
+    number: 1,
     submitTime: "2:00 PM",
-    owner: "John Doe", 
-    status: "Pending", 
+    owner: "John Doe",
+    status: "Pending",
     items: [
-      { name: "Hamburger", quantity: 1 },
-      { name: "Fries", quantity: 1 },
-      { name: "Coke", quantity: 1 },
-    ], 
+      { id: 1, name: "Hamburger", quantity: 1 },
+      { id: 2, name: "Fries", quantity: 1 },
+      { id: 3, name: "Coke", quantity: 1 },
+    ],
     notes: "No onions on the burger.",
+  },
+  {
+    number: 2,
+    submitTime: "3:00 PM",
+    owner: "Jane Doe",
+    status: "In Progress",
+    items: [
+      { id: 1, name: "Hamburger", quantity: 1 },
+      { id: 2, name: "Fries", quantity: 3 },
+      { id: 3, name: "Coke", quantity: 1 },
+    ],
+    notes: "",
   },
 ];
 
 const ViewOrdersSection = () => {
-
   // Hook to fetch menu items, returns an object with the fetch status, fetched data and error
   // const { data: fetchedOrders, fetchStatus, error } = useFetchData(getOrders);
 
@@ -50,9 +61,10 @@ const ViewOrdersSection = () => {
   };
 
   // Filter the items based on the selected tab
-  const filteredOrders = selectedTab === "All"
-    ? [...orders]
-    : orders.filter((order) => order.status === selectedTab)
+  const filteredOrders =
+    selectedTab === "All"
+      ? [...orders]
+      : orders.filter((order) => order.status === selectedTab);
 
   // Sort the items by status if the selected tab is "All"
   if (selectedTab === "All") {
