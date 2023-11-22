@@ -3,11 +3,15 @@
     flex-direction: column;
     width: 100%;
     height: auto;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 0 1rem;
     border-radius: 0.5rem;
     background-color: #ffffff;
     box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .4), 0 1px 2px 0 rgba(0, 0, 0, .2);
     overflow: hidden;
+}
+
+.bold-text {
+    font-weight: bold;
 }
 
 .order-card-header {
@@ -17,6 +21,34 @@
     width: 100%;
     padding-bottom: 0.5rem;
     border-bottom: 1px solid #e0e0e0;
+}
+
+.owner-wrapper, .status-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.owner-wrapper button, .status-wrapper button {
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    background-color: #FFA500;
+    cursor: pointer;
+}
+
+.edit-select {
+    padding: 0.2rem 0.5rem;
+    font-size: 1rem;
+    color: #000000;
+    border: 1px solid #FFA500;
+    border-radius: 4px;
+    background-color: #ffffff;
+    cursor: pointer;
 }
 
 .edit-icon {
@@ -31,20 +63,31 @@
     cursor: pointer;
 }
 
-.order-items-container {
+.order-items-wrapper {
     display: flex;
     justify-content: center;
     flex-direction: column;
-    width: 25rem;
-    height: auto;
-    padding: 1rem 4rem;
-    gap: 0.5rem;
+    width: 100%;
+    padding: 1rem 3rem;
+    gap: 1rem;
+}
+
+.order-items {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2rem;
+    gap: 0.8rem;
 }
 
 .item {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
     flex-direction: row;
+    gap: 1rem;
+}
+
+.item-name {
+    flex: 0 0 6rem;
 }
 
 .trash-icon {
@@ -54,6 +97,8 @@
 
 .item-quantity-controls {
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex: 0 0 5rem;
     border-radius: 50px;
     font-weight: bold;
@@ -62,10 +107,9 @@
     overflow: hidden;
 }
 
-.item-quantity-controls button {
-    flex: 0 0 25%;
-    font-size: 1.2rem;
-    font-weight: bold;
+.plus-icon, .minus-icon {
+    flex: 1;
+    font-size: 1rem;
     color: #FFF;
     border: none;
     background: none;
@@ -80,13 +124,26 @@
 .item-quantity-total {
     flex: 1;
     text-align: center;
+    line-height: 1.5;
 }
 
-.order-card-notes {
+.order-card-footer {
     display: flex;
+    justify-content: space-between;
     align-items: center;
     width: 100%;
     height: 100%;
-    padding: 0.5rem 0;
+    padding: 1rem 0;
     border-top: 1px solid #e0e0e0;
+}
+
+.save-button {
+    padding: 0.5rem;
+    font-size: 1rem;
+    color: #ffffff;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    background-color: #FFA500;
+    cursor: pointer;
 }
