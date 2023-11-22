@@ -5,5 +5,5 @@ export const orderTabs = [
     "In Progress",
     "Pending Payment",
     "Completed",
-    "Canceled",
+    "Cancelled",
   ];

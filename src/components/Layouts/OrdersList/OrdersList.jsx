@@ -5,8 +5,8 @@ import "./orders-list.css";
 const OrdersList = ({ orders }) => {
   return (
     <section className="orders-list-container">
-      {orders.map((order, index) => (
-        <OrderCard key={order.number?.toString() || index} order={order} />
+      {orders.map((order) => (
+        <OrderCard key={order.number} order={order} />
       ))}
     </section>
   );
