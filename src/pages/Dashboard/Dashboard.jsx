@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 
-import Header from "../../components/UI/Header/Header";
+import HeaderSection from "../../components/Sections/HeaderSection/HeaderSection";
 import SidebarSection from "../../components/Sections/SidebarSection/SidebarSection";
 import MainContent from "../../components/Layouts/MainContent/MainContent";
 import MenuSection from "../../components/Sections/MenuSection/MenuSection";
@@ -12,11 +12,12 @@ import PaymentsSection from "../../components/Sections/PaymentsSection/PaymentsS
 import "./dashboard.css";
 
 const Dashboard = () => {
+  
   return (
     <div className="dashboard-container">
       <SidebarSection />
       <div className="main-wrapper">
-        <Header />
+        <HeaderSection />
         <MainContent>
           <Routes>
             <Route index element={<Navigate to="menu" replace />} />

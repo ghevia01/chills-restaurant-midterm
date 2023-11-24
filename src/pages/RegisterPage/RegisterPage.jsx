@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 
 import { sendUserRegisterData } from "../../services/authService";
 
+import logoImg from "../../assets/chillsrestaurant-no-background.jpeg"
+
 import RegisterForm from "../../components/Forms/RegisterForm/RegisterForm";
 
 import "../RegisterPage/register-page.css";
@@ -45,7 +47,15 @@ const RegisterPage = () => {
 
   return (
     <div className="register-page">
-      <RegisterForm onRegisterAttempt={handleRegister} />
+      <div className="login-logo">
+        <img
+          src={logoImg}
+          alt="Logo"
+        />
+      </div>
+      <main>
+        <RegisterForm onLoginAttempt={handleRegister} />
+      </main>
     </div>
   );
 };

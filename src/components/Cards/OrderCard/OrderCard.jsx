@@ -1,5 +1,11 @@
-import React from "react";
-import PropTypes from 'prop-types';
+import React, { useState } from "react";
+import { useAuth } from "../../../contexts/AuthProvider";
+
+import { updateOrder } from "../../../services/updateOrderService";
+import { orderStatusOptions } from "../../../constants/orderStatusOptions";
+import { employees } from "../../../constants/employees";
+
+import PropTypes from "prop-types";
 import "./order-card.css";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -116,37 +122,107 @@ const OrderCard = ({
   return (
     <div className="order-card">
       <header className="order-card-header">
-        <span>{`Order #${number}`}</span>
-        <span>{`Time: ${submitTime}`}</span>
-        <span>{`Owner: ${owner}`}</span>
-        <span>{`Status: ${status}`}</span>
+        <span>
+          <span className="bold-text">Order </span>#{number}
+        </span>
+        <span>
+          <span className="bold-text">Time: </span>
+          {submitTime}
+        </span>
+        <div className="owner-wrapper">
+          <span className="bold-text">Owner: </span>
+          {isUserAdmin && isEditMode ? (
+            <select
+              className="edit-select"
+              value={orderOwner}
+              onChange={handleOwnerChange}
+            >
+              {employees.map((employee) => (
+                <option key={employee.employeeId} value={employee.name}>
+                  {employee.name}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span>{orderOwner}</span>
+          )}
+        </div>
+        <div className="status-wrapper">
+          <span className="bold-text">Status: </span>
+          {isEditMode ? (
+            <select
+              className="edit-select"
+              value={orderStatus}
+              onChange={handleStatusChange}
+            >
+              {orderStatusOptions.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          ) : (
+            <span>{orderStatus}</span>
+          )}
+        </div>
+        <FontAwesomeIcon
+          className={isEditMode ? "cancel-icon" : "edit-icon"}
+          icon={isEditMode ? faCircleXmark : faPenToSquare}
+          onClick={isEditMode ? cancelEdit : enableEditMode}
+        />
       </header>
-      <section className="order-items-container">
-        {items.length > 0 ? (
-          items.map((item, index) => (
-            <div className="order-card-item" key={index}>
-              <span>{item.name}</span>
-              <div className="quantity-control">
-                <button 
-                  className="item-button--increase" 
-                  aria-label={`Increase the quantity of ${item.name}`}>
-                  +
-                </button>
-                <span>{item.quantity}</span>
-                <button 
-                  className="item-button--decrease" 
-                  aria-label={`Decrease the quantity of ${item.name}`}>
-                  -
-                </button>
+      <section className="order-items-wrapper">
+        <div className="order-items-text bold-text">Order Items:</div>
+        <div className="order-items">
+          {orderItems.length > 0 ? (
+            orderItems.map((item, index) => (
+              <div key={item.id} className="item">
+                {isEditMode && (
+                  <FontAwesomeIcon
+                    className="trash-icon"
+                    icon={faTrashCan}
+                    onClick={() => handleRemoveItem(index)}
+                  />
+                )}
+                <span className="item-name">{item.name}</span>
+                <div
+                  className={`item-quantity-controls ${
+                    isEditMode ? "edit-mode" : ""
+                  }`}
+                >
+                  {isEditMode && (
+                    <FontAwesomeIcon
+                      className="quantity-btn plus-icon"
+                      icon={faMinus}
+                      onClick={() => decreaseItemQuantity(index)}
+                    />
+                  )}
+                  <span className="item-quantity-total">x{item.quantity}</span>
+                  {isEditMode && (
+                    <FontAwesomeIcon
+                      className="quantity-btn minus-icon"
+                      icon={faPlus}
+                      onClick={() => increaseItemQuantity(index)}
+                    />
+                  )}
+                </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <p className="empty-items-message">No items in this order.</p>
-        )}
+            ))
+          ) : (
+            <p className="empty-items-message">No items in this order.</p>
+          )}
+        </div>
       </section>
-      <footer className="order-card-notes">
-        <span>{`Notes: ${notes || 'None'}`}</span>
+      <footer className="order-card-footer">
+        <p>
+          <span className="bold-text">Notes: </span>
+          {`${notes || "None"}`}
+        </p>
+        {isEditMode && (
+          <button className="save-button" onClick={handleSave}>
+            Save Changes
+          </button>
+        )}
       </footer>
     </div>
   );
@@ -159,8 +235,8 @@ OrderCard.propTypes = {
     owner: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     items: PropTypes.arrayOf(PropTypes.object),
-    notes: PropTypes.string
-  }).isRequired
+    notes: PropTypes.string,
+  }).isRequired,
 };
 
 export default OrderCard;

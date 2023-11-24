@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
+import { useFetchData } from "../../../hooks/useFetchData";
 
 import TabNavigation from "../../UI/TabNavigation/TabNavigation";
 import OrdersList from "../../Layouts/OrdersList/OrdersList";
 
+import { API_FETCH_STATUS } from "../../../constants/apiFetchStatus";
+import { orderTabs } from "../../../constants/orderTabs";
+import { sortByIndex as sortByStatus } from "../../../utils/sortingFunctions";
 import { getOrders } from "../../../services/orderServices";
 
 import "./view-orders-section.css";
@@ -35,8 +39,8 @@ import "./view-orders-section.css";
 // ];
 
 const ViewOrdersSection = () => {
-  // State to keep track of the fetch status
-  const [fetchStatus, setFetchStatus] = useState(FETCH_STATUS.PENDING);
+  // Hook to fetch menu items, returns an object with the fetch status, fetched data and error
+  // const { data: fetchedOrders, fetchStatus, error } = useFetchData(getOrders);
 
   // State to keep track of the selected tab
   const [selectedTab, setSelectedTab] = useState(orderTabs[0]);
@@ -57,21 +61,17 @@ const ViewOrdersSection = () => {
   };
 
   // Filter the items based on the selected tab
-  const filteredOrders = useMemo(() => {
-    return selectedTab === "ALL"
-      ? [orders].sort((a, b) => {
-          // Get the index of the categories in the menuTabs array
-          const indexA = orderTabs.indexOf(a.status);
-          const indexB = orderTabs.indexOf(b.status);
-          // Sort based on the index (this will sort the products based on the order of the categories in the menuTabs array)
-          return indexA - indexB;
-        })
+  const filteredOrders =
+    selectedTab === "All"
+      ? [...orders]
       : orders.filter((order) => order.status === selectedTab);
-  }, [orders, selectedTab]);
 
   // Early return for pending state
   if (fetchStatus === API_FETCH_STATUS.PENDING) {
     return <div>Loading...</div>;
+  // Sort the items by status if the selected tab is "All"
+  if (selectedTab === "All") {
+    filteredOrders.sort(sortByStatus(orderTabs));
   }
 
   // Early return for error state
@@ -81,14 +81,14 @@ const ViewOrdersSection = () => {
 
   return (
     <section className="orders-section">
-      {/* Pass the menuTabs array to the TabNavigation componentca and handle the tab click */}
+      {/* Pass the orderTabs array to the TabNavigation component and handle the tab click */}
       <TabNavigation tabs={orderTabs} onTabClick={handleTabClick} />
       <div className="category-text-container">
         <h2>
           Category: <span className="category-text">{selectedTab}</span>
         </h2>
       </div>
-      {/* Pass the filteredItems array to the MenuItemsList component */}
+      {/* Pass the filteredItems array to the OrderList component */}
       <OrdersList orders={filteredOrders} />
     </section>
   );
