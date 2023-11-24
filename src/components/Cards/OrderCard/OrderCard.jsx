@@ -2,8 +2,116 @@ import React from "react";
 import PropTypes from 'prop-types';
 import "./order-card.css";
 
-const OrderCard = ({ order }) => {
-  const { number, submitTime, owner, status, items = [], notes } = order; // Default items to an empty array if undefined
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
+import {
+  faPenToSquare,
+  faCircleXmark,
+  faTrashCan,
+  faPlus,
+  faMinus,
+} from "@fortawesome/free-solid-svg-icons";
+
+const OrderCard = ({
+  order: { number, submitTime, owner, status, items = [], notes },
+}) => {
+  // Hook to get the user role
+  const { userRole } = useAuth();
+  const isUserAdmin = true;
+
+  // States to keep track of the items, owner, and status
+  const [initialOrder, setInitialOrder] = useState({
+    owner,
+    status,
+    items,
+    notes,
+  });
+  const [orderItems, setOrderItems] = useState([...items]);
+  const [orderOwner, setOrderOwner] = useState(owner);
+  const [orderStatus, setOrderStatus] = useState(status);
+
+  // State to keep track of the edit mode
+  const [isEditMode, setIsEditMode] = useState(false);
+
+  // State to keep track of the save message
+  const [saveMessage, setSaveMessage] = useState("");
+
+  // Function to toggle the edit mode
+  const enableEditMode = () => {
+    if (true) {
+      setInitialOrder({
+        owner: orderOwner,
+        status: orderStatus,
+        items: orderItems,
+        notes,
+      });
+    }
+    setIsEditMode(true);
+  };
+
+  // Function to cancel the edit
+  const cancelEdit = () => {
+    setOrderOwner(initialOrder.owner);
+    setOrderStatus(initialOrder.status);
+    setOrderItems([...initialOrder.items]);
+    setIsEditMode(false);
+  };
+
+  // Function to handle changing the status
+  const handleStatusChange = (e) => {
+    setOrderStatus(e.target.value);
+  };
+
+  const handleOwnerChange = (e) => {
+    setOrderOwner(e.target.value);
+  };
+
+  // Function to handle removing an item
+  const handleRemoveItem = (itemIndex) => {
+    const updatedItems = orderItems.filter((_, index) => index !== itemIndex);
+    setOrderItems(updatedItems);
+  };
+
+  // Function to increase the quantity of an item
+  const increaseItemQuantity = (itemIndex) => {
+    const newItems = [...orderItems];
+    newItems[itemIndex].quantity += 1;
+    setOrderItems(newItems);
+  };
+
+  // Function to decrease the quantity of an item
+  const decreaseItemQuantity = (itemIndex) => {
+    const newItems = [...orderItems];
+    if (newItems[itemIndex].quantity > 1) {
+      newItems[itemIndex].quantity -= 1;
+      setOrderItems(newItems);
+    }
+  };
+
+  // Function to handle saving the order
+  const handleSave = async () => {
+    const updatedOrder = {
+      number,
+      owner: orderOwner,
+      status: orderStatus,
+      items: orderItems,
+    };
+
+    try {
+      const { result, message } = await updateOrder(updatedOrder);
+      if (result === "success") {
+        console.log("Order updated successfully!");
+      } else {
+        console.error("There was a problem updating the order:", message);
+        // cancelEdit();
+      }
+    } catch (error) {
+      console.error("There was a problem updating the order:", error);
+      // cancelEdit();
+    }
+
+    setIsEditMode(false);
+  };
 
   return (
     <div className="order-card">
