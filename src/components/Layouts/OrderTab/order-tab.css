@@ -124,15 +124,20 @@
 
 .clear-btn {
     background-color: #828282;
+    transition: background-color 0.1s ease-in-out;
+}
+
+.clear-btn:hover {
+    background-color: #6e6e6e;
 }
 
 .submit-btn {
     background-color: #FFA500;
+    transition: background-color 0.1s ease-in-out;
 }
 
-.order-actions button:hover {
-    background: #ff8c00;
-    cursor: pointer;
+.submit-btn:hover {
+    background-color: #ff8c00;
 }
 
 .order-actions button:active {
