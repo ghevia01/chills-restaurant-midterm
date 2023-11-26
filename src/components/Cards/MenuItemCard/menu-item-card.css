@@ -34,27 +34,34 @@
 
 .item-name-price-container {
     display: flex;
-    flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
 }
 
-.menu-item-card.item-name {
+.item-name-price-container .item-name {
+    flex: 1 1 70%;
+    max-width: 70%;
     font-size: 1rem;
     font-weight: bold;
     color: #202020;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-.menu-item-card.item-price {
+.item-name-price-container .item-price {
     font-size: 1rem;
     color: #E57F00;
+    flex: 1 1 30%;
+    text-align: right;
+    white-space: nowrap;
 }
 
 .item-description-container {
     height: 4rem;
-    font-size: 14px;
+    font-size: 0.9rem;
     color: #6b6b6b;
-
+    line-height: 1.4;
 }
 
 .order-button-container {
