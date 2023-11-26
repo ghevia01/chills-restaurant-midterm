@@ -61,6 +61,7 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
     enableReinitialize: true,
   });
 
+  // Function to handle the close button click
   const handleCloseButtonClick = () => {
     formik.resetForm();
     onClose();
@@ -95,9 +96,24 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
   // Function to handle the image change
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      let img = e.target.files[0];
-      setUploadedImage(URL.createObjectURL(img));
-      formik.setFieldValue("image", img);
+      const imgFile = e.target.files[0];
+
+      // Create a FileReader to convert the image to base64
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+
+        // Update the uploadedImage state
+        setUploadedImage(reader.result);
+
+        // Update the image field value
+        formik.setFieldValue("image", base64String);
+      };
+
+      // Read the image file
+      reader.readAsDataURL(imgFile);
     }
   };
 
@@ -114,7 +130,10 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
           <form className="item-modal-form">
             <div className="modal-header">
               <img
-                src={uploadedImage || formik.values.image}
+                src={
+                  uploadedImage ||
+                  `data:image/jpeg;base64,${formik.values.image}`
+                }
                 alt={`${formik.values.name}`}
                 className="item-modal-image"
               />
