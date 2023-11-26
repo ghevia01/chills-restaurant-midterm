@@ -285,8 +285,8 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
         )}
         <ConfirmationModal
           isOpen={showConfirmation}
-          onConfirm={handleConfirmSave}
           onCancel={handleCancelSave}
+          onConfirm={handleConfirmSave}
           message="Are you sure you want to save these changes?"
         />
       </div>
