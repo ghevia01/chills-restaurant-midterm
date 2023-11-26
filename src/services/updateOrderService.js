@@ -4,7 +4,7 @@ import API from "../axios";
 export const updateOrder = async (updatedOrder) => {
   try {
     // Send the updated order to the server
-    const response = await API.post("/api/orders/update", updatedOrder);
+    const response = await API.put("/api/orders/update", updatedOrder);
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
