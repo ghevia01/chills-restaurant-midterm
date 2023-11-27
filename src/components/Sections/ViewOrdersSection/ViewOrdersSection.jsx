@@ -40,7 +40,7 @@ import "./view-orders-section.css";
 
 const ViewOrdersSection = () => {
   // Hook to fetch menu items, returns an object with the fetch status, fetched data and error
-  // const { data: fetchedOrders, fetchStatus, error } = useFetchData(getOrders);
+  const { data: fetchedOrders, fetchStatus, error } = useFetchData(getOrders);
 
   // State to keep track of the selected tab
   const [selectedTab, setSelectedTab] = useState(orderTabs[0]);
@@ -69,6 +69,8 @@ const ViewOrdersSection = () => {
   // Early return for pending state
   if (fetchStatus === API_FETCH_STATUS.PENDING) {
     return <div>Loading...</div>;
+  }
+
   // Sort the items by status if the selected tab is "All"
   if (selectedTab === "All") {
     filteredOrders.sort(sortByStatus(orderTabs));
