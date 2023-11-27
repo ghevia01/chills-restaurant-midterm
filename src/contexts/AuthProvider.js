@@ -32,12 +32,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Function to log in the user and set user details from the JWT
-  const login = (token, role) => {
+  const login = (token, user) => {
     try {
       setToken(token);
-      // setUserDetails(decoded); // Set the user details in the state
+      setUserDetails(user); // Set the user details in the state
       setIsLoggedIn(true); // Update the login status
-      setUserRole(role); // Assuming the role is included in the JWT payload
+      setUserRole(user.role); // Assuming the role is included in the JWT payload
       setUpAxiosHeaders(token); // Set up Axios headers
     } catch (error) {
       console.error("Failed to decode token:", error);
