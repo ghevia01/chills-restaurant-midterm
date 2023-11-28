@@ -101,19 +101,22 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
       // Create a FileReader to convert the image to base64
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result
-          .replace("data:", "")
-          .replace(/^.+,/, "");
+        
+        // Get the binary data from the image
+        const imageArrayBuffer = reader.result;
+
+        // Convert ArrayBuffer to Byte Array
+        const imageByteArray = new Uint8Array(imageArrayBuffer);
 
         // Update the uploadedImage state
-        setUploadedImage(reader.result);
+        setUploadedImage(imageArrayBuffer);
 
         // Update the image field value
-        formik.setFieldValue("image", base64String);
+        formik.setFieldValue("image", imageByteArray);
       };
 
       // Read the image file
-      reader.readAsDataURL(imgFile);
+      reader.readAsArrayBuffer(imgFile);
     }
   };
 
