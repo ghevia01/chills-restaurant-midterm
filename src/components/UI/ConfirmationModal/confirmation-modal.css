@@ -48,7 +48,7 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
   }
 
   .confirm-button:hover {
@@ -62,7 +62,7 @@
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.1s ease-in-out;
+    transition: background-color 0.15s ease-in-out;
   }
 
   .cancel-button:hover {
