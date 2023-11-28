@@ -4,7 +4,7 @@ import API from "../axios";
 export const sendUserLoginData = async (loginFormData) => {
   try {
     // Send the login form data to the server
-    const response = await API.post("/api/auth/signin/employee", loginFormData);
+    const response = await API.post("/api/auth/signin", loginFormData);
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
       return {
@@ -44,7 +44,7 @@ export const sendUserRegisterData = async (registerFormData) => {
   try {
     // Send the login form data to the server
     const response = await API.post(
-      "/api/auth/signup/employee",
+      "/api/auth/signup",
       registerFormData
     );
     // Check if the response is ok
