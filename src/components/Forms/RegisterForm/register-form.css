@@ -1,9 +1,9 @@
 .register-form {
     display: flex;
     flex-direction: column;
-    width: 46rem;
+    width: 50rem;
     height: 40rem;
-    gap: 2rem;
+    gap: 1rem;
 }
 
 .register-header {
@@ -20,7 +20,12 @@
 .register-form form .field-row {
     display: flex;
     width: 100%;
+    margin-top: 1rem;
     gap: 1rem;
+}
+
+.register-btn {
+    margin-top: 2rem;
 }
 
 .register-aux-links {

@@ -58,7 +58,7 @@ const LoginForm = ({ onLoginAttempt }) => {
       >
         <FormField
           label="E-Mail"
-          type="email"
+          type="text"
           name="email"
           value={formik.values.email}
           onChange={formik.handleChange}
