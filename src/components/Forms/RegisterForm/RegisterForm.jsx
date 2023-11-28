@@ -104,8 +104,8 @@ const RegisterForm = ({ onRegisterAttempt }) => {
             name="firstName"
             value={formik.values.firstName}
             onChange={formik.handleChange}
-            placeholder="Enter employee ID"
-            aria-label="Enter employee ID"
+            placeholder="Enter first name"
+            aria-label="Enter first name"
             errors={formik.errors}
             touched={formik.touched}
           />
@@ -181,7 +181,7 @@ const RegisterForm = ({ onRegisterAttempt }) => {
         </div>
 
         <FormButton
-          className="form-btn"
+          className="form-btn register-btn"
           type="submit"
           name="loginBtn"
           text="Create Account"
