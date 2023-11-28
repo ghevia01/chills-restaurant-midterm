@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import { useAuth } from "../../../contexts/AuthProvider";
 
-import { updateOrder } from "../../../services/updateOrderService";
 import { orderStatusOptions } from "../../../constants/orderStatusOptions";
 import { employees } from "../../../constants/employees";
+import { updateOrder } from "../../../services/updateOrderService";
+
+import ConfirmationModal from "../../UI/ConfirmationModal/ConfirmationModal";
+import ResultModal from "../../UI/ResultModal/ResultModal";
 
 import PropTypes from "prop-types";
 import "./order-card.css";
@@ -23,7 +26,7 @@ const OrderCard = ({
 }) => {
   // Hook to get the user role
   const { userRole } = useAuth();
-  const isUserAdmin = true;
+  const isUserAdmin = userRole === "admin";
 
   // States to keep track of the items, owner, and status
   const [initialOrder, setInitialOrder] = useState({
@@ -39,8 +42,14 @@ const OrderCard = ({
   // State to keep track of the edit mode
   const [isEditMode, setIsEditMode] = useState(false);
 
-  // State to keep track of the save message
-  const [saveMessage, setSaveMessage] = useState("");
+  // State to store the confirmation modal visibility
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
+  // State to store uodate result, messages, and visibility
+  const [result, setResult] = useState("");
+  const [resultMessageHeader, setResultMessageHeader] = useState("");
+  const [resultMessage, setResultMessage] = useState("");
+  const [showResult, setShowResult] = useState(false);
 
   // Function to toggle the edit mode
   const enableEditMode = () => {
@@ -48,7 +57,7 @@ const OrderCard = ({
       setInitialOrder({
         owner: orderOwner,
         status: orderStatus,
-        items: orderItems,
+        items: orderItems.map((item) => ({ ...item })),
         notes,
       });
     }
@@ -59,7 +68,7 @@ const OrderCard = ({
   const cancelEdit = () => {
     setOrderOwner(initialOrder.owner);
     setOrderStatus(initialOrder.status);
-    setOrderItems([...initialOrder.items]);
+    setOrderItems(initialOrder.items.map((item) => ({ ...item })));
     setIsEditMode(false);
   };
 
@@ -69,7 +78,9 @@ const OrderCard = ({
   };
 
   const handleOwnerChange = (e) => {
-    setOrderOwner(e.target.value);
+    if (isUserAdmin) {
+      setOrderOwner(e.target.value);
+    }
   };
 
   // Function to handle removing an item
@@ -94,8 +105,31 @@ const OrderCard = ({
     }
   };
 
+  // Function to handle the update response
+  const handleUpdateResponse = (updateResult) => {
+    if (updateResult === "success") {
+      setResult(updateResult);
+      setResultMessageHeader("Order Updated Successfully!");
+      setResultMessage(`Order #${number} was updated successfully!`);
+    } else if (updateResult === "failed") {
+      setResult("failed");
+      setResultMessageHeader("Error updating order");
+      setResultMessage(
+        `There was an error updating Order #${number}, please try again.`
+      );
+    } else {
+      setResult("unexpected");
+      setResultMessageHeader("An unexpected error occurred");
+      setResultMessage(
+        `There was an unexpected error updating Order #${number}, please try again.`
+      );
+    }
+
+    setShowResult(true);
+  };
+
   // Function to handle saving the order
-  const handleSave = async () => {
+  const handleUpdateOrder = async () => {
     const updatedOrder = {
       number,
       owner: orderOwner,
@@ -103,20 +137,34 @@ const OrderCard = ({
       items: orderItems,
     };
 
+    setShowConfirmation(false);
+
     try {
-      const { result, message } = await updateOrder(updatedOrder);
+      // Update the order in the database
+      const { result } = await updateOrder(updatedOrder);
+
       if (result === "success") {
-        console.log("Order updated successfully!");
+        handleUpdateResponse(result);
       } else {
-        console.error("There was a problem updating the order:", message);
-        // cancelEdit();
+        handleUpdateResponse("failed");
+        cancelEdit();
       }
     } catch (error) {
-      console.error("There was a problem updating the order:", error);
-      // cancelEdit();
+      handleUpdateResponse("unexpected");
+      cancelEdit();
     }
 
     setIsEditMode(false);
+  };
+
+  // Function to handle the save button click
+  const handleSaveAttempt = () => {
+    setShowConfirmation(true);
+  };
+
+  // Function to handle the cancel button click in the confirmation modal
+  const handleCancelSave = () => {
+    setShowConfirmation(false);
   };
 
   return (
@@ -219,11 +267,24 @@ const OrderCard = ({
           {`${notes || "None"}`}
         </p>
         {isEditMode && (
-          <button className="save-button" onClick={handleSave}>
+          <button className="save-button" onClick={handleSaveAttempt}>
             Save Changes
           </button>
         )}
       </footer>
+      <ConfirmationModal
+        isOpen={showConfirmation}
+        onCancel={handleCancelSave}
+        onConfirm={handleUpdateOrder}
+        message="Are you sure you want to save these changes?"
+      />
+      <ResultModal
+        isOpen={showResult}
+        result={result}
+        messageHeader={resultMessageHeader}
+        message={resultMessage}
+        onClose={() => setShowResult(false)}
+      />
     </div>
   );
 };

@@ -1,0 +1,99 @@
+.result-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.result-modal {
+  background-color: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.result-modal-content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 1.2rem;
+  gap: 1rem;
+}
+
+.result-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+  font-weight: bold;
+}
+
+.result-modal-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 8.5rem;
+  height: 8.5rem;
+  border: 1px solid #ccc;
+  border-radius: 100px;
+  font-size: 3rem;
+}
+
+.success-icon {
+  font-size: 4.5rem;
+  color: #4caf50;
+}
+
+.failed-icon {
+  font-size: 4.5rem;
+  color: #f44336;
+}
+
+.result-modal-body {
+  text-align: center;
+  padding: 1rem;
+}
+
+.result-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  gap: 1rem;
+}
+
+.success-button {
+  width: 100%;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #4caf50;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.success-button:hover {
+  background-color: #3fa042;
+}
+
+.ok-button {
+  width: 100%;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  background-color: #f44336;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.ok-button:hover {
+  background-color: #d64434;
+}
