@@ -22,7 +22,7 @@ const LoginPage = () => {
       // If response is successful, use the login function and navigate to the dashboard
       if (response.result === "success") {
         // Assuming response.data contains the JWT token, and the role is part of the decoded token
-        login(response.data.token, response.data.role); // Update this line to pass the token
+        login(response.data.token, response.data.user); // Update this line to pass the token
         navigate("/dashboard", { replace: true });
         return true;
       } else {

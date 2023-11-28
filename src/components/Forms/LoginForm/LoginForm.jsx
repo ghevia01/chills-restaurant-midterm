@@ -14,13 +14,13 @@ import "./login-form.css";
 
 // Default login form state data
 const defaultLoginData = {
-  employeeId: "",
+  email: "",
   password: "",
 };
 
 // Validation schema for formik
 const loginValidationSchema = Yup.object({
-  employeeId: Yup.string().required("Enter a valid employee ID."),
+  email: Yup.string().required("Enter a valid e-mail."),
   password: Yup.string().required("Enter a valid password."),
 });
 
@@ -57,12 +57,12 @@ const LoginForm = ({ onLoginAttempt }) => {
         onSubmit={formik.handleSubmit}
       >
         <FormField
-          label="Employee Id"
-          type="text"
-          name="employeeId"
-          value={formik.values.employeeId}
+          label="E-Mail"
+          type="email"
+          name="email"
+          value={formik.values.email}
           onChange={formik.handleChange}
-          aria-label="Enter employee Id"
+          aria-label="Enter e-mail"
           errors={formik.errors}
           touched={formik.touched}
         />

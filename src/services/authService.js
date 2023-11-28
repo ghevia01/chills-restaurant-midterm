@@ -10,7 +10,7 @@ export const sendUserLoginData = async (loginFormData) => {
       return {
         result: "success",
         data: response.data,
-        role: response.data.role,
+        user: response.data.user,
         message: null,
       };
     } else {
