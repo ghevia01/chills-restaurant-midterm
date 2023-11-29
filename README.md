@@ -55,7 +55,7 @@ This is an internal application designed for use by Chills Restaurant employees.
 
 ---
 
-## 3User Guide for Restaurant Web Page
+## User Guide for Restaurant Web Page
 
 Table of Contents:
 
