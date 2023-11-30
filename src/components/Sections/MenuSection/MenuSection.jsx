@@ -19,6 +19,7 @@ import {
   getMenuItemData,
   updateMenuItem,
   addNewMenuItem,
+  removeMenuItem,
 } from "../../../services/menuItemsServices";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -103,6 +104,25 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
     }
   };
 
+  // Function to handle the item remove
+  const handleRemoveItem = async (itemId) => {
+    try {
+      // Remove the item from the database
+      await removeMenuItem(itemId);
+
+      // Update the menuItems state
+      const updatedMenuItems = menuItems.filter((item) => item.id !== itemId);
+      setMenuItems(updatedMenuItems);
+
+      // Close the modal if the removed item is the selected item
+      if (selectedItem && selectedItem.id === itemId) {
+        closeItemModal();
+      }
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+
   // Function to handle the add item modal close
   const closeAddItemModal = () => {
     setisAddItemModalOpen(false);
@@ -178,6 +198,7 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
           item={selectedItem}
           onSave={handleUpdateItem}
           onClose={closeItemModal}
+          onRemove={handleRemoveItem}
         />
       )}
     </section>

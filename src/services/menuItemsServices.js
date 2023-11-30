@@ -41,7 +41,6 @@ export const addNewMenuItem = async (newItem) => {
   }
 };
 
-
 // Function to send the new menu item data to the server
 export const getMenuItemData = async () => {
   try {
@@ -118,7 +117,7 @@ export const updateMenuItem = async (updatedMenuItem) => {
 
 
 // Function to send the new menu item data to the server
-export const deleteMenuItem = async (menuItemId) => {
+export const removeMenuItem = async (menuItemId) => {
   try {
     const response = await API.delete("/api/food/delete", menuItemId);
 
