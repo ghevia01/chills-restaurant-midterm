@@ -83,9 +83,14 @@ const RegisterForm = ({ onRegisterAttempt }) => {
 
   // Function to handle form submission
   const handleFormSubmit = async (values) => {
-    const success = await onRegisterAttempt(values);
-    if (!success) {
-      // Handle unsuccessful register (e.g., show an error message to the user).
+    if (typeof onRegisterAttempt === 'function') {
+      const success = await onRegisterAttempt(values);
+      if (!success) {
+        // Handle unsuccessful register
+      }
+    } else {
+      console.error('onRegisterAttempt is not a function');
+      // Handle the error appropriately
     }
   };
 
