@@ -131,15 +131,16 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
   const handleAddMenuItem = async (newMenuItem) => {
     try {
       const response = await addNewMenuItem(newMenuItem); // API call to add item
+      if (response.result !== null ) {
+        setMenuItems(response.data);
+      }
       // Assuming `response` has a way to indicate success
-      setMenuItems(response.data)
       return { result: "success" };
     } catch (error) {
       console.error("Error adding the new item:", error);
       return { result: "failed" };
     }
   };
-  
 
   // Filter the items based on the selected tab
   const filteredItems =
