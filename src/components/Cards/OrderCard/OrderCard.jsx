@@ -28,6 +28,8 @@ const OrderCard = ({
   const { userRole } = useAuth();
   const isUserManager = userRole === "MANAGER";
 
+  let deletedItems = [];
+
   // States to keep track of the items, owner, and status
   const [initialOrder, setInitialOrder] = useState({
     owner,
@@ -85,7 +87,7 @@ const OrderCard = ({
 
   // Function to handle removing an item
   const handleRemoveItem = (itemIndex) => {
-    console.log(orderItems[itemIndex]);
+    deletedItems.push(orderItems[itemIndex])
     const updatedItems = orderItems.filter((_, index) => index !== itemIndex);
     setOrderItems(updatedItems);
   };
@@ -136,6 +138,7 @@ const OrderCard = ({
       owner: orderOwner,
       status: orderStatus,
       items: orderItems,
+      itemsToDelete: deletedItems,
     };
 
     setShowConfirmation(false);
