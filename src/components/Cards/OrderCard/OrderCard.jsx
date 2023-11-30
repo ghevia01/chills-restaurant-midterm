@@ -26,7 +26,7 @@ const OrderCard = ({
 }) => {
   // Hook to get the user role
   const { userRole } = useAuth();
-  const isUserAdmin = userRole === "admin";
+  const isUserManager = userRole === "MANAGER";
 
   // States to keep track of the items, owner, and status
   const [initialOrder, setInitialOrder] = useState({
@@ -78,7 +78,7 @@ const OrderCard = ({
   };
 
   const handleOwnerChange = (e) => {
-    if (isUserAdmin) {
+    if (isUserManager) {
       setOrderOwner(e.target.value);
     }
   };
@@ -179,7 +179,7 @@ const OrderCard = ({
         </span>
         <div className="owner-wrapper">
           <span className="bold-text">Owner: </span>
-          {isUserAdmin && isEditMode ? (
+          {isUserManager && isEditMode ? (
             <select
               className="edit-select"
               value={orderOwner}

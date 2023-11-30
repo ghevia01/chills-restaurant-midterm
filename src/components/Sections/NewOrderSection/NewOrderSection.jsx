@@ -11,10 +11,12 @@ import "./new-order-section.css";
 import { useAuth } from "../../../contexts/AuthProvider";
 
 const NewOrderSection = () => {
+  // Hook to navigate to a different page
+  const navigate = useNavigate();
+  
   // State to store the orders
   const [orderItems, setOrderItems] = useState([]);
-  const navigate = useNavigate(); // Get the navigate function from react-router-dom
-
+  
   // Use the Auth Context to get user details
   const { userDetails } = useAuth();
   const customerId = userDetails?.id;

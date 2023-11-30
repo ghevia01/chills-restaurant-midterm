@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useFetchData } from "../../../hooks/useFetchData";
+import { useAuth } from "../../../contexts/AuthProvider";
 
 import MenuList from "../../../components/Layouts/MenuList/MenuList";
 import Searchbar from "../../../components/UI/Searchbar/Searchbar";
 import TabNavigation from "../../../components/UI/TabNavigation/TabNavigation";
+import AddNewItemModal from "../../../components/UI/AddNewItemModal/AddNewItemModal";
 import MenuItemModal from "../../../components/UI/MenuItemModal/MenuItemModal";
 
 import { API_FETCH_STATUS } from "../../../constants/apiFetchStatus";
@@ -14,10 +16,18 @@ import {
 } from "../../../utils/sortingFunctions";
 import { getMenuItemData } from "../../../services/foodService";
 import { updateMenuItem } from "../../../services/updateMenuItem";
+import { addNewMenuItem } from "../../../services/addNewItemService";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 import "./menu-section.css";
 
 const MenuSection = ({ isOrdering, onAddToOrder }) => {
+  // Hook to get the user role
+  const { userRole } = useAuth();
+  const isUserManager = userRole === "MANAGER";
+
   // Hook to fetch menu items, returns an object with the fetch status, fetched data and error
   const {
     data: fetchedMenuItems,
@@ -35,7 +45,10 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   // State to store the modal open/close state
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isItemModalOpen, setisItemModalOpen] = useState(false);
+
+  // State to store the add item modal open/close state
+  const [isAddItemModalOpen, setisAddItemModalOpen] = useState(false);
 
   // Update the menuItems state when the fetchedMenuItems state changes
   useEffect(() => {
@@ -49,15 +62,20 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
     setSelectedTab(tab);
   };
 
+  // Function to handle the add item click
+  const handleAddItemClick = () => {
+    setisAddItemModalOpen(true);
+  };
+
   // Function to handle the menu item click
   const handleMenuItemClick = (item) => {
     setSelectedItem(item);
-    setIsModalOpen(true);
+    setisItemModalOpen(true);
   };
 
   // Function to handle the modal close
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
+  const closeItemModal = () => {
+    setisItemModalOpen(false);
     setSelectedItem(null);
   };
 
@@ -77,9 +95,22 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
       if (selectedItem && selectedItem.id === updatedItem.id) {
         setSelectedItem(updatedItem);
       }
-
     } catch (error) {
       console.error("Error updating item:", error);
+    }
+  };
+
+  // Function to handle the add item modal close
+  const closeAddItemModal = () => {
+    setisAddItemModalOpen(false);
+  };
+
+  const handleAddMenuItem = async (newMenuItem) => {
+    try {
+      // Add the new item to the database
+      await addNewMenuItem(newMenuItem);
+    } catch (error) {
+      console.error("Error adding the new item:", error);
     }
   };
 
@@ -116,6 +147,11 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
         <h2 className="category-header">
           Category: <span className="category-text">{selectedTab}</span>
         </h2>
+        {isUserManager && (
+          <button className="add-item-button" onClick={handleAddItemClick}>
+            <FontAwesomeIcon icon={faPlus} /> New Item
+          </button>
+        )}
       </div>
       {/* Pass the filteredItems array to the MenuList component */}
       <MenuList
@@ -124,12 +160,21 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
         onAddToOrder={onAddToOrder}
         onMenuItemClick={handleMenuItemClick}
       />
+
+      {/* Render the AddNewItemModal component if the isAddItemModalOpen state is true */}
+      {isAddItemModalOpen && (
+        <AddNewItemModal
+          onCreate={handleAddMenuItem}
+          onClose={closeAddItemModal}
+        />
+      )}
+
       {/* Render the MenuItemModal component if the isModalOpen state is true */}
-      {isModalOpen && (
+      {isItemModalOpen && (
         <MenuItemModal
           item={selectedItem}
           onSave={handleUpdateItem}
-          onClose={handleCloseModal}
+          onClose={closeItemModal}
         />
       )}
     </section>

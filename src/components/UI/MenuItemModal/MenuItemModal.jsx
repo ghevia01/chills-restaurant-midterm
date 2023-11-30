@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import { useAuth } from "../../../contexts/AuthProvider";
+
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 
 import "./menu-item-modal.css";
@@ -29,6 +31,10 @@ const menuItemSchema = Yup.object().shape({
 });
 
 const MenuItemModal = ({ item, onSave, onClose }) => {
+  // Get the logout function from the auth context
+  const { userRole } = useAuth();
+  const isUserManager = userRole === "MANAGER";
+
   // State to store the item data
   const [isEditing, setIsEditing] = useState(false);
 
@@ -51,8 +57,24 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
     },
     validationSchema: menuItemSchema,
     onSubmit: async (values) => {
+      // Create a new FormData instance
+      const formData = new FormData();
+
+      // Append image to FormData
+      if (values.image) {
+        formData.append("image", values.image);
+      }
+
+      // Append other values to FormData
+      for (const key in values) {
+        if (key !== "image") {
+          formData.append(key, values[key]);
+        }
+      }
+
+      // Call the onSave callback
       try {
-        await onSave(values);
+        await onSave(formData);
         setIsEditing(false);
       } catch (error) {
         console.error("Error saving item:", error);
@@ -60,6 +82,12 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
     },
     enableReinitialize: true,
   });
+
+  // Function to reset the item state
+  const resetItemState = () => {
+    formik.resetForm();
+    setIsEditing(false);
+  };
 
   // Function to handle the close button click
   const handleCloseButtonClick = () => {
@@ -97,33 +125,10 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
   const handleImageChange = (e) => {
     if (e.target.files && e.target.files[0]) {
       const imgFile = e.target.files[0];
-
-      // Create a FileReader to convert the image to base64
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        
-        // Get the binary data from the image
-        const imageArrayBuffer = reader.result;
-
-        // Convert ArrayBuffer to Byte Array
-        const imageByteArray = new Uint8Array(imageArrayBuffer);
-
-        // Update the uploadedImage state
-        setUploadedImage(imageArrayBuffer);
-
-        // Update the image field value
-        formik.setFieldValue("image", imageByteArray);
-      };
-
-      // Read the image file
-      reader.readAsArrayBuffer(imgFile);
+      const imageUrl = URL.createObjectURL(imgFile);
+      setUploadedImage(imageUrl);
+      formik.setFieldValue("image", imgFile);
     }
-  };
-
-  // Function to reset the item state
-  const resetItemState = () => {
-    formik.resetForm();
-    setIsEditing(false);
   };
 
   return (
@@ -259,6 +264,7 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
                 className="item-modal-image"
               />
             </div>
+
             <div className="item-modal-details">
               <div className="item-modal-name-price">
                 <h2 className="item-modal-name">{formik.values.name}</h2>
@@ -282,12 +288,14 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
             </div>
 
             <div className="item-modal-actions">
-              <button
-                className="modal-action-button modal-remove-button"
-                onClick={() => {}}
-              >
-                Remove Item
-              </button>
+              {isUserManager && (
+                <button
+                  className="modal-action-button modal-remove-button"
+                  onClick={() => {}}
+                >
+                  Remove Item
+                </button>
+              )}
               <div className="buttons-wrapper">
                 <button
                   className="modal-action-button modal-close-button"
@@ -295,12 +303,14 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
                 >
                   Close
                 </button>
-                <button
-                  className="modal-action-button modal-edit-button"
-                  onClick={handleEditButtonClick}
-                >
-                  Edit
-                </button>
+                {isUserManager && (
+                  <button
+                    className="modal-action-button modal-edit-button"
+                    onClick={handleEditButtonClick}
+                  >
+                    Edit
+                  </button>
+                )}
               </div>
             </div>
           </>
