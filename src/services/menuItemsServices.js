@@ -4,7 +4,7 @@ import API from "../axios";
 export const addNewMenuItem = async (newItem) => {
   try {
     // Send new item data to the server
-    const response = await API.post("url", newItem);
+    const response = await API.post("/api/food/add", newItem);
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
