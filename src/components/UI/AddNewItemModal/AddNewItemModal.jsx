@@ -58,6 +58,13 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     onSubmit: async (values) => {
       // Create a new FormData object
       const formData = new FormData();
+      Object.keys(values).forEach((key) => {
+        if (key === "image" && values[key]) {
+          formData.append(key, values[key]);
+        } else {
+          formData.append(key, values[key]);
+        }
+      });
 
       // Append image to FormData
       if (values.image) {
@@ -73,14 +80,15 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
 
       // Call the onCreate function
       try {
-        const { result } = await onCreate(formData);
-        if (result === "success") {
-          handleUpdateResponse(result);
+        const response = await onCreate(formData);
+        if (response && response.result === "success") {
+          handleUpdateResponse("success");
         } else {
           handleUpdateResponse("failed");
         }
       } catch (error) {
         console.error("Error adding the new item:", error);
+        handleUpdateResponse("unexpected");
       }
     },
   });
