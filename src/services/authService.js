@@ -49,7 +49,7 @@ export const sendUserRegisterData = async (registerFormData) => {
     );
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
-      console.log(response);
+      // console.log(response);
       return {
         result: "success",
         data: response.data,
