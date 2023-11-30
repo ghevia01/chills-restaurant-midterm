@@ -56,9 +56,12 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     initialValues: itemInitialValues,
     validationSchema: menuItemSchema,
     onSubmit: async (values) => {
+
+      console.log("Form values: ", values);
+
       // Create a new FormData object
       const formData = new FormData();
-    
+
       // Append image to FormData
       if (values.image) {
         formData.append("image", values.image);
