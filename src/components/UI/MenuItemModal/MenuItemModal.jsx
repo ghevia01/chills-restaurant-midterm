@@ -30,7 +30,7 @@ const menuItemSchema = Yup.object().shape({
     .required("Description is required."),
 });
 
-const MenuItemModal = ({ item, onSave, onClose }) => {
+const MenuItemModal = ({ item, onSave, onClose, onRemove }) => {
   // Get the logout function from the auth context
   const { userRole } = useAuth();
   const isUserManager = userRole === "MANAGER";
@@ -40,6 +40,9 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
 
   // State to store the uploaded image
   const [uploadedImage, setUploadedImage] = useState(null);
+
+  // State to store the confirmation modal type
+  const [confirmationType, setConfirmationType] = useState(null);
 
   // State to store the confirmation modal visibility
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -89,6 +92,22 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
     setIsEditing(false);
   };
 
+  // Function to handle the remove button click
+  const handleRemoveButtonClick = () => {
+    setConfirmationType("remove");
+    setShowConfirmation(true);
+  };
+
+  const handleConfirmRemove = async () => {
+    setShowConfirmation(false);
+    try {
+      await onRemove(item.id);
+      onClose();
+    } catch (error) {
+      console.error("Error removing item:", error);
+    }
+  };
+
   // Function to handle the close button click
   const handleCloseButtonClick = () => {
     formik.resetForm();
@@ -107,6 +126,7 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
 
   // Function to handle the save button click
   const handleSaveAttempt = () => {
+    setConfirmationType("edit");
     setShowConfirmation(true);
   };
 
@@ -291,7 +311,7 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
               {isUserManager && (
                 <button
                   className="modal-action-button modal-remove-button"
-                  onClick={() => {}}
+                  onClick={handleRemoveButtonClick}
                 >
                   Remove Item
                 </button>
@@ -318,7 +338,11 @@ const MenuItemModal = ({ item, onSave, onClose }) => {
         <ConfirmationModal
           isOpen={showConfirmation}
           onCancel={handleCancelSave}
-          onConfirm={handleConfirmSave}
+          onConfirm={
+            confirmationType === "edit"
+              ? handleConfirmSave
+              : handleConfirmRemove
+          }
           message="Are you sure you want to save these changes?"
         />
       </div>
