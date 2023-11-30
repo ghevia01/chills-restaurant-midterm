@@ -131,7 +131,7 @@ const MenuSection = ({ isOrdering, onAddToOrder }) => {
   const handleAddMenuItem = async (newMenuItem) => {
     try {
       const response = await addNewMenuItem(newMenuItem); // API call to add item
-      if (response.result !== null ) {
+      if (response.data !== null ) {
         setMenuItems(response.data);
       }
       // Assuming `response` has a way to indicate success
