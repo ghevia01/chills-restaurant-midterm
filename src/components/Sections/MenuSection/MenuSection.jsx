@@ -14,9 +14,12 @@ import {
   sortByIndex as sortByCategory,
   sortByName,
 } from "../../../utils/sortingFunctions";
-import { getMenuItemData } from "../../../services/foodService";
-import { updateMenuItem } from "../../../services/updateMenuItem";
-import { addNewMenuItem } from "../../../services/addNewItemService";
+
+import {
+  getMenuItemData,
+  updateMenuItem,
+  addNewMenuItem,
+} from "../../../services/menuItemsServices";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
