@@ -54,7 +54,7 @@ const RegisterPage = () => {
         />
       </div>
       <main>
-        <RegisterForm onLoginAttempt={handleRegister} />
+        <RegisterForm onRegisterAttempt={handleRegister} />
       </main>
     </div>
   );
