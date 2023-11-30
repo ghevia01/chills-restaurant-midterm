@@ -12,7 +12,9 @@ const NewOrderSection = () => {
 
     // State to store the orders
     const [orderItems, setOrderItems] = useState([]);
-    const navigate = useNavigate(); // Get the navigate function from react-router-dom
+
+    // Hook to navigate to a different page
+    const navigate = useNavigate();
 
     // Function to handle adding new items to the order
     const handleAddToOrder = (menuItem) => {
