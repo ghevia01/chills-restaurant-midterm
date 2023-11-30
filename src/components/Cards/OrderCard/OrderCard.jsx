@@ -85,6 +85,7 @@ const OrderCard = ({
 
   // Function to handle removing an item
   const handleRemoveItem = (itemIndex) => {
+    console.log(orderItems[itemIndex]);
     const updatedItems = orderItems.filter((_, index) => index !== itemIndex);
     setOrderItems(updatedItems);
   };
