@@ -1,6 +1,7 @@
 import React from "react";
 import { useLiveDateTime } from "../../../hooks/useLiveDateTime";
 import { useAuth } from "../../../contexts/AuthProvider";
+import { useNavigate } from 'react-router-dom';
 
 import DropdownButton from "../../UI/DropdownButton/DropdownButton";
 
@@ -9,11 +10,15 @@ import { faCircleQuestion, faUser } from "@fortawesome/free-solid-svg-icons";
 import "./header-section.css";
 
 const Header = () => {
+  // Get the navigate function from react-router-dom
+  let navigate = useNavigate();
+
   // Get the current date/time
   const currentDateTime = useLiveDateTime();
 
   // Get the logout function from the auth context
-  const { logout } = useAuth();
+  const { userRole, logout } = useAuth();
+  const isUserManager = userRole === "MANAGER";
 
   // Format the date to a string like: "Monday, July 5, 2021"
   const formattedDate = currentDateTime.toLocaleDateString("en-US", {
@@ -31,6 +36,10 @@ const Header = () => {
 
   // Function to handle the dropdown option click
   const handleOptionClick = (option) => {
+    if (option === "Manage Users") {
+      navigate("/manage-users");
+    }
+
     if (option === "Logout") {
       logout(); 
     } 
@@ -52,7 +61,7 @@ const Header = () => {
         <DropdownButton
           className="account-button"
           icon={faUser}
-          dropdownOptions={["Profile", "Settings", "Logout"]}
+          dropdownOptions={ isUserManager ? ["Manage Users", "Settings", "Logout"] : ["Logout"]}
           onOptionClick={handleOptionClick}
           ariaLabel="Account Button"
         />
