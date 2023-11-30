@@ -58,14 +58,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     onSubmit: async (values) => {
       // Create a new FormData object
       const formData = new FormData();
-      Object.keys(values).forEach((key) => {
-        if (key === "image" && values[key]) {
-          formData.append(key, values[key]);
-        } else {
-          formData.append(key, values[key]);
-        }
-      });
-
+    
       // Append image to FormData
       if (values.image) {
         formData.append("image", values.image);
