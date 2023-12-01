@@ -4,7 +4,11 @@ import API from "../axios";
 export const addNewMenuItem = async (newItem) => {
   try {
     // Send new item data to the server
-    const response = await API.post("/api/food/add", newItem);
+    const response = await API.post("/api/food/add", newItem, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
@@ -91,16 +95,15 @@ export const updateMenuItem = async (updatedMenuItem) => {
         message: null,
       };
     } else {
-
       const errorMessage = response.data && response.data.message;
       return {
         result: "error",
         data: null,
-        message: errorMessage || "An error occurred while updating the menu item",
+        message:
+          errorMessage || "An error occurred while updating the menu item",
       };
     }
   } catch (error) {
-
     console.error("Error in updateMenuItem:", error.message);
 
     const serverMessage =
@@ -114,7 +117,6 @@ export const updateMenuItem = async (updatedMenuItem) => {
     };
   }
 };
-
 
 // Function to send the new menu item data to the server
 export const removeMenuItem = async (menuItemId) => {
@@ -153,4 +155,4 @@ export const removeMenuItem = async (menuItemId) => {
         serverMessage || `An unexpected error occurred: ${error.message}`,
     };
   }
-}
+};
