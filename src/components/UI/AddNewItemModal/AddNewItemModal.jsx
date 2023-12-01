@@ -40,7 +40,7 @@ const menuItemSchema = Yup.object().shape({
 
 const AddNewItemModal = ({ onClose, onCreate }) => {
   // State to store the uploaded image
-  const [uploadedImage, setUploadedImage] = useState(null);
+  // const [uploadedImage, setUploadedImage] = useState(null);
 
   // State to store the confirmation modal visibility
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -61,9 +61,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
 
       // Check if there's an uploaded image and append it
       if (values.image) {
-        // Remove the Base64 prefix for the image data
-        const base64ImageContent = uploadedImage.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
-        formData.append('image', base64ImageContent);
+        formData.append("image", values.image);
       }
 
       // Append other values to FormData
@@ -86,7 +84,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
       }
     },
   });
-  
+
   // Function to reset the item state
   const resetItemState = () => {
     formik.resetForm();
@@ -113,17 +111,16 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   const handleCancelSave = () => {
     setShowConfirmation(false);
   };
-  
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        const base64String = reader.result
-          .replace("data:", "")
-          .replace(/^.+,/, "");
-        setUploadedImage(base64String);
+        // Extract the Base64 encoded data and remove the prefix
+        const base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, '');
+        // Update Formik's state
+        formik.setFieldValue('image', base64String);
       };
       reader.readAsDataURL(file);
     }
