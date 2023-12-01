@@ -44,6 +44,25 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     messageHeader: "",
     message: "",
   });
+  
+  const formik = useFormik({
+    initialValues: itemInitialValues,
+    validationSchema: menuItemSchema,
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
+      try {
+        const response = await onCreate(formData);
+        handleUpdateResponse(response.result);
+      } catch (error) {
+        console.error("Error adding the new item:", error);
+        handleUpdateResponse("unexpected");
+      }
+    },
+  });
 
   const handleUpdateResponse = useCallback(
     (updateResult) => {
@@ -65,24 +84,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     [formik.values.name]
   );
 
-  const formik = useFormik({
-    initialValues: itemInitialValues,
-    validationSchema: menuItemSchema,
-    onSubmit: async (values) => {
-      const formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => {
-        formData.append(key, value);
-      });
 
-      try {
-        const response = await onCreate(formData);
-        handleUpdateResponse(response.result);
-      } catch (error) {
-        console.error("Error adding the new item:", error);
-        handleUpdateResponse("unexpected");
-      }
-    },
-  });
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
