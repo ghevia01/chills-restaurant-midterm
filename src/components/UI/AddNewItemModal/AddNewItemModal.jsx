@@ -114,14 +114,16 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   };
 
   // Function to handle the image change
-  const handleImageChange = (e) => {
-    if (e.target.files && e.target.files[0]) {
-      const imgFile = e.target.files[0];
-      const imageUrl = URL.createObjectURL(imgFile);
-      setUploadedImage(imageUrl);
-      formik.setFieldValue("image", imgFile);
+  const handleImageChange = e => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = event => formik.setFieldValue('image', event.target.result);
+      reader.readAsBinaryString(file);
+      setUploadedImage(URL.createObjectURL(file));
     }
   };
+
 
   // Function to handle the update response
   const handleUpdateResponse = (updateResult) => {
@@ -151,7 +153,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   return (
     <div className="menu-item-modal">
       <div className="modal-content">
-        <form className="item-modal-form">
+        <form className="item-modal-form" onSubmit={formik.handleSubmit}>
           <div className="modal-header">
             {uploadedImage && (
               <img
@@ -256,7 +258,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
           <div className="item-modal-actions">
             <button
               className="modal-action-button modal-cancel-button"
-              type="button"
+              type="submit"
               onClick={handleCloseButtonClick}
             >
               Close
