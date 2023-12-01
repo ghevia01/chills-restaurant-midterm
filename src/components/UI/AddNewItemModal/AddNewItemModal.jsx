@@ -103,7 +103,6 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
 
   // Function to handle the confirm button click in the confirmation modal
   const handleConfirmSave = () => {
-    formik.handleSubmit();
     setShowConfirmation(false);
     resetItemState();
   };
@@ -280,7 +279,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
         <ConfirmationModal
           isOpen={showConfirmation}
           onCancel={handleCancelSave}
-          onConfirm={handleConfirmSave}
+          onConfirm={handleConfirmSave && formik.handleSubmit}
           message="Are you sure you want to save these changes?"
         />
         <ResultModal
