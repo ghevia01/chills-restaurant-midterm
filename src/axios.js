@@ -18,8 +18,13 @@ API.interceptors.request.use(
   (config) => {
     const xsrfToken = getCsrfToken();
 
-    config.headers["Content-Type"] = "application/json";
-
+    // Check if the URL is for adding a new menu item
+    if (config.url === "/api/food/add" && config.method === "post") {
+      config.headers["Content-Type"] = "multipart/form-data";
+    } else {
+      config.headers["Content-Type"] = "application/json";
+    }
+    
     if (xsrfToken) {
       config.headers["X-XSRF-TOKEN"] = xsrfToken; // Set CSRF token in request headers
     }
