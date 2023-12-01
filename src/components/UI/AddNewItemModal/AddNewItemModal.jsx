@@ -60,8 +60,8 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
       const formData = new FormData();
 
       // Append image to FormData
-      if (values.image) {
-        formData.append("image", values.image);
+      if (imageBase64) {
+        formData.append("image", imageBase64);
       }
 
       // Append other values to FormData
@@ -84,7 +84,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
       }
     },
   });
-
+  
   // Function to reset the item state
   const resetItemState = () => {
     formik.resetForm();
@@ -103,8 +103,8 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
 
   // Function to handle the confirm button click in the confirmation modal
   const handleConfirmSave = () => {
-    setShowConfirmation(false);
     formik.handleSubmit();
+    setShowConfirmation(false);
     resetItemState();
   };
 
@@ -112,17 +112,20 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   const handleCancelSave = () => {
     setShowConfirmation(false);
   };
+  
+  const [imageBase64, setImageBase64] = useState("");
 
-  // Function to handle the image change
   const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setUploadedImage(reader.result); // Display the image preview
-        formik.setFieldValue("image", reader.result); // Set the Base64 string
+        const base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+        setImageBase64(base64String);
       };
-      reader.readAsDataURL(file); // Converts the file to a Base64 string
+      reader.readAsDataURL(file);
     }
   };
 
@@ -277,7 +280,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
         <ConfirmationModal
           isOpen={showConfirmation}
           onCancel={handleCancelSave}
-          onConfirm={formik.handleSubmit}
+          onConfirm={handleConfirmSave}
           message="Are you sure you want to save these changes?"
         />
         <ResultModal
