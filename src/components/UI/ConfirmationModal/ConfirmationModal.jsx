@@ -19,7 +19,7 @@ const ConfirmationModal = ({ isOpen, onCancel, onConfirm, message }) => {
               Cancel
             </button>
             <button
-              type="submit"
+              type="button"
               onClick={onConfirm}
               className="confirm-button"
             >
