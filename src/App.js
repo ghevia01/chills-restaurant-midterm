@@ -1,11 +1,17 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthProvider";
 import ProtectedRoute from "./components/Security/ProtectedRoute";
 
 import LoginPage from "./pages/LoginPage/LoginPage";
 import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import Dashboard from "./pages/Dashboard/Dashboard";
+import ManageUsersPage from "./pages/ManageUsersPage/ManageUsersPage";
 
 import "./App.css";
 
@@ -23,6 +29,14 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Dashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/manage-users"
+              element={
+                <ProtectedRoute>
+                  <ManageUsersPage />
                 </ProtectedRoute>
               }
             />
