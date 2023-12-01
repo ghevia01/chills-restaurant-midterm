@@ -61,8 +61,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
 
       // Append image to FormData
       if (values.image) {
-        const imageBlob = dataURItoBlob(values.image); // Convert Base64 to Blob
-        formData.append("image", imageBlob, 'image.jpg'); // Assuming a JPG image
+        formData.append("image", values.image);
       }
 
       // Append other values to FormData
