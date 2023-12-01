@@ -40,7 +40,7 @@ const menuItemSchema = Yup.object().shape({
 
 const AddNewItemModal = ({ onClose, onCreate }) => {
   // State to store the uploaded image
-  // const [uploadedImage, setUploadedImage] = useState(null);
+  const [uploadedImage, setUploadedImage] = useState(null);
 
   // State to store the confirmation modal visibility
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -121,6 +121,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
         const base64String = reader.result.replace(/^data:image\/[a-z]+;base64,/, '');
         // Update Formik's state
         formik.setFieldValue('image', base64String);
+        setUploadedImage(base64String);
       };
       reader.readAsDataURL(file);
     }
@@ -158,7 +159,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
           <div className="modal-header">
             {uploadedImage && (
               <img
-                src={uploadedImage || ""}
+              src={`data:image/jpeg;base64,${formik.values.image}` || ""}
                 alt={`${formik.values.name}`}
                 className="item-modal-image"
               />
