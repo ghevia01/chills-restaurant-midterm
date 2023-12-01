@@ -114,13 +114,18 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   };
 
   // Function to handle the image change
-const handleImageChange = e => {
-  const file = e.target.files?.[0];
-  if (file) {
-    setUploadedImage(URL.createObjectURL(file));
-    formik.setFieldValue("image", file); // Set the file itself, not a binary string
-  }
-};
+  const handleImageChange = e => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result); // Display the image preview
+        formik.setFieldValue("image", reader.result); // Set the Base64 string
+      };
+      reader.readAsDataURL(file); // Converts the file to a Base64 string
+    }
+  };
+  
 
 
 
