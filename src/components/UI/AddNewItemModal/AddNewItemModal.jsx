@@ -114,7 +114,6 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   };
 
   // Function to handle the image change
-  // Function to handle the image change
 const handleImageChange = e => {
   const file = e.target.files?.[0];
   if (file) {
