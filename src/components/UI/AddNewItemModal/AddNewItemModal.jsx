@@ -8,7 +8,7 @@ import ResultModal from "../ResultModal/ResultModal";
 import "./add-new-item-modal.css";
 
 const itemInitialValues = {
-  image: "",
+  image: null,
   name: "",
   price: "",
   description: "",
@@ -258,13 +258,13 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
           <div className="item-modal-actions">
             <button
               className="modal-action-button modal-cancel-button"
-              type="submit"
+              type="button"
               onClick={handleCloseButtonClick}
             >
               Close
             </button>
             <button
-              type="button"
+              type="submit"
               className="modal-action-button modal-save-button"
               onClick={handleSaveAttempt}
             >
