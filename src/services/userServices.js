@@ -123,7 +123,7 @@ export const deleteUser= async (deleteUser) => {
 
 export const updateUser = async (updatedUser) => {
   try {
-    const response = await API.put("/api/users/update", updatedMupdatedUserenuItem);
+    const response = await API.put("/api/users/update", updatedUser);
 
     if (response.status >= 200 && response.status < 300) {
       return {

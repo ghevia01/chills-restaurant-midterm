@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+
 import { useFormik } from "formik";
+import React, { useState } from "react";
 import * as Yup from "yup";
 
-import ResultModal from "../ResultModal/ResultModal";
 
 import "./user-edit-modal.css";
 
@@ -161,7 +161,7 @@ const UserEditModal = ({ user, onClose, onSave }) => {
             </label>
 
             <label className="field-label">
-            Date of Birth
+              Date of Birth
               <input
                 type="date"
                 name="dob"

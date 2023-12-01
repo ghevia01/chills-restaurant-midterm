@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useFetchData } from "../../hooks/useFetchData";
-import { getAllUsersData } from "../../services/userServices";
-import { API_FETCH_STATUS } from "../../constants/apiFetchStatus";
-import { updateUserData } from "../../services/userServices";
 
-import UserEditModal from "../../components/UI/UserEditModal/UserEditModal";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 import UserAddModal from "../../components/UI/UserAddModal/UserAddModal";
+import UserEditModal from "../../components/UI/UserEditModal/UserEditModal";
+=
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
