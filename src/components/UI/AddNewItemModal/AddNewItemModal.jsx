@@ -84,7 +84,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
       }
     },
   });
-  
+
   // Function to reset the item state
   const resetItemState = () => {
     formik.resetForm();
@@ -114,17 +114,17 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   };
 
   // Function to handle the image change
-const handleImageChange = e => {
-  const file = e.target.files?.[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setUploadedImage(reader.result); // Display the image preview
-      formik.setFieldValue("image", reader.result); // Set the Base64 string
-    };
-    reader.readAsDataURL(file); // Converts the file to a Base64 string
-  }
-};
+  const handleImageChange = (e) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setUploadedImage(reader.result); // Display the image preview
+        formik.setFieldValue("image", reader.result); // Set the Base64 string
+      };
+      reader.readAsDataURL(file); // Converts the file to a Base64 string
+    }
+  };
 
   // Function to handle the update response
   const handleUpdateResponse = (updateResult) => {
@@ -154,7 +154,7 @@ const handleImageChange = e => {
   return (
     <div className="menu-item-modal">
       <div className="modal-content">
-        <form className="item-modal-form" onSubmit={formik.handleSubmit}>
+        <form className="item-modal-form">
           <div className="modal-header">
             {uploadedImage && (
               <img
@@ -277,7 +277,7 @@ const handleImageChange = e => {
         <ConfirmationModal
           isOpen={showConfirmation}
           onCancel={handleCancelSave}
-          onConfirm={handleConfirmSave}
+          onConfirm={formik.handleSubmit}
           message="Are you sure you want to save these changes?"
         />
         <ResultModal
