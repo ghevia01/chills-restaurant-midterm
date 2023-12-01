@@ -61,8 +61,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
 
       // Append image to FormData
       if (values.image) {
-        const imageBlob = dataURItoBlob(values.image); // Convert Base64 to Blob
-        formData.append("image", imageBlob, 'image.jpg'); // Assuming a JPG image
+        formData.append("image", values.image);
       }
 
       // Append other values to FormData
@@ -85,28 +84,6 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
       }
     },
   });
-
-  const dataURItoBlob = (dataURI) => {
-    // Split the data URI into parts using a comma as the separator
-    const parts = dataURI.split(',');
-    
-    // Decode the Base64 encoded string
-    const decodedData = window.atob(parts[1]);
-    
-    // Create an ArrayBuffer and a view (as a typed array) to store the decoded data
-    const arrayBuffer = new ArrayBuffer(decodedData.length);
-    const uint8Array = new Uint8Array(arrayBuffer);
-  
-    for (let i = 0; i < decodedData.length; i++) {
-      uint8Array[i] = decodedData.charCodeAt(i);
-    }
-  
-    // Retrieve the MIME type from the data URI
-    const mimeString = parts[0].split(':')[1].split(';')[0];
-  
-    // Generate and return a new Blob object using the Uint8Array and the MIME type
-    return new Blob([uint8Array], { type: mimeString });
-  };
   
   // Function to reset the item state
   const resetItemState = () => {
