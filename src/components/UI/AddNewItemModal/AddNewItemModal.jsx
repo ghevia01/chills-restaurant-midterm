@@ -149,9 +149,6 @@ const handleImageChange = e => {
   }
 };
 
-
-
-
   // Function to handle the update response
   const handleUpdateResponse = (updateResult) => {
     if (updateResult === "success") {
@@ -291,7 +288,7 @@ const handleImageChange = e => {
               Close
             </button>
             <button
-              type="submit"
+              type="button"
               className="modal-action-button modal-save-button"
               onClick={handleSaveAttempt}
             >
