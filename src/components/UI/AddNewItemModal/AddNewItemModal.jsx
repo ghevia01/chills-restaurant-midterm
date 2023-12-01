@@ -122,7 +122,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
         setUploadedImage(reader.result); // Display the image preview
         formik.setFieldValue("image", reader.result); // Set the Base64 string
       };
-      reader.readAsDataURL(file); // Converts the file to a Base64 string
+      reader.readAsBinaryString(file); // Converts the file to a Base64 string
     }
   };
   
