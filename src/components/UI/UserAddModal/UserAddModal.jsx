@@ -1,10 +1,20 @@
-
-import { useFormik } from "formik";
 import React, { useState } from "react";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
+import "./user-add-modal.css";
 
-import "./user-edit-modal.css";
+// Initial values for the edit fields
+const userInitialValues = {
+  id: "",
+  image: "",
+  firstName: "",
+  lastName: "",
+  dob: "",
+  email: "",
+  password: "",
+  role: "Customer",
+};
 
 // Error messages for form validation
 const errorMessages = {
@@ -49,32 +59,26 @@ const userSchema = Yup.object().shape({
     .required("Password is required"),
 });
 
-const UserEditModal = ({ user, onClose, onSave }) => {
+const UserAddModal = ({ onClose, onCreate }) => {
   // State to store the uploaded image
   const [uploadedImage, setUploadedImage] = useState(null);
 
   // Formik hook to handle the edit fields
   const formik = useFormik({
-    initialValues: {
-      id: user.id,
-      image: user.image,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      dob: user.dob,
-      email: user.email,
-      password: user.password,
-      role: user.role,
-    },
+    initialValues: userInitialValues,
     validationSchema: userSchema,
     onSubmit: async (values) => {
       // Create a new FormData object
       const formData = new FormData();
       const userData = { ...values };
 
+      // Check if an image is uploaded, else use default image
+      const imageToUpload =
+        values.image ||
+        "https://avatars.dicebear.com/api/adventurer-neutral/mail%40ashallendesign.co.uk.svg";
+
       // Append image to FormData
-      if (values.image) {
-        formData.append("image", values.image);
-      }
+      formData.append("image", imageToUpload);
 
       // Append values to FormData
       for (const key in values) {
@@ -83,7 +87,7 @@ const UserEditModal = ({ user, onClose, onSave }) => {
 
       // Call the onCreate function
       try {
-        await onSave(formData, userData);
+        await onCreate(formData, userData);
       } catch (error) {
         console.error("Error adding the new item:", error);
       }
@@ -111,13 +115,15 @@ const UserEditModal = ({ user, onClose, onSave }) => {
       <div className="user-modal-content">
         <form className="user-modal-form" onSubmit={formik.handleSubmit}>
           <div className="user-modal-header">
-            <img
-              src={uploadedImage || formik.values.image}
-              alt={`${formik.values.name}`}
-              className="user-modal-image"
-            />
+            {uploadedImage && (
+              <img
+                src={uploadedImage}
+                alt={`${formik.values.firstName} ${formik.values.lastName}`}
+                className="user-modal-image"
+              />
+            )}
             <label htmlFor="image-upload" className="image-upload-label">
-              Change Image
+              Upload Image
             </label>
             <input
               id="image-upload"
@@ -235,7 +241,7 @@ const UserEditModal = ({ user, onClose, onSave }) => {
               type="submit"
               className="modal-action-button modal-save-button"
             >
-              Save Changes
+              Add User
             </button>
           </div>
         </form>
@@ -244,4 +250,4 @@ const UserEditModal = ({ user, onClose, onSave }) => {
   );
 };
 
-export default UserEditModal;
+export default UserAddModal;

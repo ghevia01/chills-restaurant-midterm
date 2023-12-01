@@ -1,0 +1,75 @@
+.manage-users-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    gap: 4rem;
+    background-color: #f0f0f0;
+    padding-bottom: 4rem;
+    overflow-y: scroll;
+}
+
+.main-page-header {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 1rem;
+    width: 100%;
+    padding: 1rem 10rem;
+    color: #515151;
+    font-weight: bold;
+    background-color: #ffffff;
+    box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.back-arrow-icon {
+    font-size: 1.6rem;
+    cursor: pointer;
+}
+
+.go-to-dashboard-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.2rem;
+    padding: 0.7rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #000000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.users-list-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    width: 60rem;
+    padding: 1rem 0;
+    color: #515151;
+    font-weight: bold;
+    line-height: 1.5;
+}
+
+.users-list-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.add-user-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    background-color: rgb(54, 192, 0);
+    font-size: 0.8rem;
+    color: #ffffff;
+    font-weight: bold;
+    cursor: pointer;
+}
