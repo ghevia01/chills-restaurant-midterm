@@ -1,12 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ConfirmationModal from "../ConfirmationModal/ConfirmationModal";
 import ResultModal from "../ResultModal/ResultModal";
 import "./add-new-item-modal.css";
 
-// Schema for edit fields validation
-const menuItemSchema = Yup.object({
+const itemInitialValues = {
+  image: "",
+  name: "",
+  price: "",
+  description: "",
+  category: "Appetizers",
+  availability: "Available",
+};
+
+const menuItemSchema = Yup.object().shape({
   name: Yup.string()
     .max(40, "Name must be at most 40 characters long")
     .required("Name is required."),
@@ -31,25 +39,43 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   const [uploadedImage, setUploadedImage] = useState(null);
   const [modalState, setModalState] = useState({
     showConfirmation: false,
-    result: "",
-    resultMessageHeader: "",
-    resultMessage: "",
     showResult: false,
+    result: "",
+    messageHeader: "",
+    message: "",
   });
 
-  const formik = useFormik({
-    initialValues: {
-      image: "",
-      name: "",
-      price: "",
-      description: "",
-      category: "Appetizers",
-      availability: "Available",
+  const handleUpdateResponse = useCallback(
+    (updateResult) => {
+      setModalState({
+        showResult: true,
+        result: updateResult,
+        messageHeader:
+          updateResult === "success"
+            ? "Item Added Successfully!"
+            : updateResult === "failed"
+            ? "Error adding item"
+            : "An unexpected error occurred",
+        message:
+          updateResult === "success"
+            ? `${formik.values.name} was successfully added to the menu!`
+            : "There was an error while adding the item to the menu, please try again.",
+      });
     },
+    [formik.values.name]
+  );
+
+  const formik = useFormik({
+    initialValues: itemInitialValues,
     validationSchema: menuItemSchema,
     onSubmit: async (values) => {
+      const formData = new FormData();
+      Object.entries(values).forEach(([key, value]) => {
+        formData.append(key, value);
+      });
+
       try {
-        const response = await onCreate(convertToFormData(values));
+        const response = await onCreate(formData);
         handleUpdateResponse(response.result);
       } catch (error) {
         console.error("Error adding the new item:", error);
@@ -58,80 +84,53 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     },
   });
 
-  const convertToFormData = (values) => {
-    const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => {
-      if (key !== "image" || value) {
-        formData.append(key, value);
-      }
-    });
-    return formData;
-  };
-
   const handleImageChange = (e) => {
-    const file = e.target.files?.[0];
+    const file = e.target.files[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) =>
-        formik.setFieldValue("image", event.target.result);
-      reader.readAsBinaryString(file);
       setUploadedImage(URL.createObjectURL(file));
+      formik.setFieldValue("image", file);
     }
   };
 
-  const handleUpdateResponse = (result) => {
-    const messages = {
-      success: [
-        "Item Added Successfully!",
-        `${formik.values.name} was successfully added to the menu!`,
-      ],
-      failed: [
-        "Error adding item",
-        "There was an error while adding the item to the menu, please try again.",
-      ],
-      unexpected: [
-        "An unexpected error occurred",
-        "There was an unexpected error while adding the item to the menu, please try again.",
-      ],
-    };
-
-    const [header, message] = messages[result] || [
-      "Unknown Error",
-      "An unknown error occurred.",
-    ];
-    setModalState({
-      ...modalState,
-      showResult: true,
-      result,
-      resultMessageHeader: header,
-      resultMessage: message,
-    });
-  };
-
-  const FieldWithError = ({ name, type = "text", label, as }) => (
-    <>
+  const renderFormField = (fieldType, name, label, options) => {
+    return (
       <label className="item-label">
         {label}
-        {as === "textarea" ? (
+        {fieldType === "input" ? (
+          <input
+            name={name}
+            type="text"
+            className="edit-field"
+            onChange={formik.handleChange}
+            value={formik.values[name]}
+          />
+        ) : fieldType === "textarea" ? (
           <textarea
             name={name}
             className="edit-field"
-            {...formik.getFieldProps(name)}
+            onChange={formik.handleChange}
+            value={formik.values[name]}
           />
         ) : (
-          <input
+          <select
             name={name}
-            type={type}
             className="edit-field"
-            {...formik.getFieldProps(name)}
-          />
+            onChange={formik.handleChange}
+            value={formik.values[name]}
+          >
+            {options.map((option) => (
+              <option key={option} value={option}>
+                {option}
+              </option>
+            ))}
+          </select>
+        )}
+        {formik.touched[name] && formik.errors[name] && (
+          <div className="edit-field-error-msg">{formik.errors[name]}</div>
         )}
       </label>
-      {formik.touched[name] && formik.errors[name] && (
-        <div className="edit-field-error-msg">{formik.errors[name]}</div>
-      )}
-    </>
-  );
+    );
+  };
 
   return (
     <div className="menu-item-modal">
@@ -157,19 +156,20 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
             />
           </div>
           <div className="item-modal-details">
-            <FieldWithError name="name" label="Name:" />
-            <FieldWithError name="price" label="Price:" />
-            <FieldWithError
-              name="description"
-              label="Description:"
-              as="textarea"
-            />
-            <FieldWithError name="category" label="Category:" as="select" />
-            <FieldWithError
-              name="availability"
-              label="Availability:"
-              as="select"
-            />
+            {renderFormField("input", "name", "Name:")}
+            {renderFormField("input", "price", "Price:")}
+            {renderFormField("textarea", "description", "Description:")}
+            {renderFormField("select", "category", "Category:", [
+              "Appetizers",
+              "Entrees",
+              "Sides",
+              "Desserts",
+              "Beverages",
+            ])}
+            {renderFormField("select", "availability", "Availability:", [
+              "Available",
+              "Unavailable",
+            ])}
           </div>
           <div className="item-modal-actions">
             <button
@@ -201,8 +201,8 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
         <ResultModal
           isOpen={modalState.showResult}
           result={modalState.result}
-          messageHeader={modalState.resultMessageHeader}
-          message={modalState.resultMessage}
+          messageHeader={modalState.messageHeader}
+          message={modalState.message}
           onClose={() => setModalState({ ...modalState, showResult: false })}
         />
       </div>
