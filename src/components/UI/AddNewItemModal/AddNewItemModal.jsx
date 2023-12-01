@@ -59,9 +59,11 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
       // Create a new FormData object
       const formData = new FormData();
 
-      // Append image to FormData
-      if (imageBase64) {
-        formData.append("image", imageBase64);
+      // Check if there's an uploaded image and append it
+      if (values.image) {
+        // Remove the Base64 prefix for the image data
+        const base64ImageContent = uploadedImage.replace(/^data:image\/(png|jpeg|jpg);base64,/, '');
+        formData.append('image', base64ImageContent);
       }
 
       // Append other values to FormData
@@ -112,7 +114,6 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
     setShowConfirmation(false);
   };
   
-  const [imageBase64, setImageBase64] = useState("");
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -122,7 +123,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
         const base64String = reader.result
           .replace("data:", "")
           .replace(/^.+,/, "");
-        setImageBase64(base64String);
+        setUploadedImage(base64String);
       };
       reader.readAsDataURL(file);
     }
