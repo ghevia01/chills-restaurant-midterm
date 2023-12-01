@@ -153,7 +153,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
   return (
     <div className="menu-item-modal">
       <div className="modal-content">
-        <form className="item-modal-form">
+        <form className="item-modal-form" onSubmit={formik.handleSubmit}>
           <div className="modal-header">
             {uploadedImage && (
               <img
@@ -258,7 +258,7 @@ const AddNewItemModal = ({ onClose, onCreate }) => {
           <div className="item-modal-actions">
             <button
               className="modal-action-button modal-cancel-button"
-              type="button"
+              type="submit"
               onClick={handleCloseButtonClick}
             >
               Close
