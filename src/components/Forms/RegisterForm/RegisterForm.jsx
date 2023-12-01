@@ -33,6 +33,7 @@ const errorMessages = {
     "Password must contain at least 8 characters, one uppercase and lowercase letter, one number and one special character.",
   rePassword: "Passwords do not match.",
 };
+
 // Regular expressions for form validation
 const regExpressions = {
   firstNameRegex: /^[A-Za-z]{2,}$/,

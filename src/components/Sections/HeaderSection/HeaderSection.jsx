@@ -18,7 +18,8 @@ const Header = () => {
 
   // Get the logout function from the auth context
   const { userRole, logout } = useAuth();
-  const isUserManager = userRole === "MANAGER";
+  // const isUserManager = userRole === "MANAGER";
+  const isUserManager = "MANAGER";
 
   // Format the date to a string like: "Monday, July 5, 2021"
   const formattedDate = currentDateTime.toLocaleDateString("en-US", {
