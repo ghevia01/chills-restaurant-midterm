@@ -18,6 +18,7 @@ const Header = () => {
 
   // Get the logout function from the auth context
   const { userRole, logout } = useAuth();
+  
   // const isUserManager = userRole === "MANAGER";
   const isUserManager = "MANAGER";
 
