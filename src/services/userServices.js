@@ -3,7 +3,7 @@ import API from "../axios";
 export const getAllUsersData = async () => {
   try {
     // fetch employee data from the server
-    const response = await API.get("api/users/all");
+    const response = await API.get("api/users");
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
@@ -43,7 +43,7 @@ export const getAllUsersData = async () => {
 export const addNewUser= async (newUser) => {
   try {
     // Send new item data to the server
-    const response = await API.post("/api/users/add", newUser);
+    const response = await API.post("/api/users", newUser);
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
@@ -83,7 +83,7 @@ export const addNewUser= async (newUser) => {
 export const deleteUser= async (deleteUser) => {
   try {
     // Send new item data to the server
-    const response = await API.post("/api/users/delete", deleteUser);
+    const response = await API.delete("/api/users", deleteUser);
 
     // Check if the response is ok
     if (response.status >= 200 && response.status < 300) {
@@ -123,7 +123,7 @@ export const deleteUser= async (deleteUser) => {
 
 export const updateUser = async (updatedUser) => {
   try {
-    const response = await API.put("/api/users/update", updatedUser);
+    const response = await API.put("/api/users", updatedUser);
 
     if (response.status >= 200 && response.status < 300) {
       return {

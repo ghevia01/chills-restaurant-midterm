@@ -1,85 +1,49 @@
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
 import UserAddModal from "../../components/UI/UserAddModal/UserAddModal";
 import UserEditModal from "../../components/UI/UserEditModal/UserEditModal";
-
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-
 import "./manage-users-page.css";
-
 import UsersList from "../../components/Layouts/UsersList/UsersList";
 
-const myUsers = [
-  {
-    id: 1,
-    image: "",
-    firstName: "Gean",
-    lastName: "Hevia",
-    dob: "1995-07-02",
-    email: "gcaarlos30@gmail.com",
-    password: "Qwery1234*",
-    role: "Manager",
-  },
-  {
-    id: 2,
-    image: "",
-    firstName: "Cesar",
-    lastName: "Moreno",
-    dob: "1995-04-08",
-    email: "cesarmoreno@gmail.com",
-    password: "Qwery1234*",
-    role: "Manager",
-  },
-];
+import { getAllUsersData, addNewUser, updateUser, deleteUser } from "../../services/userServices";
 
 const ManageUsersPage = () => {
-  // Hook to navigate between pages
   const navigate = useNavigate();
 
-  // Hook to fetch users, returns an object with the fetch status, fetched data and error
-  // const {
-  //   data: fetchedUsersData,
-  //   fetchStatus,
-  //   error,
-  // } = useFetchData(getAllUsersData);
-
-  // State to store fetched users
-  const [users, setUsers] = useState(myUsers);
-
-  // State to store the selected user
+  const [users, setUsers] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  // State to store the modal open/close state
   const [isEditUserModalOpen, setIsEditUserModalOpen] = useState(false);
-
-  // State to store the modal open/close state
   const [isAddUserModalOpen, setIsAddUserModalOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  // useEffect(() => {
-  //   if (fetchStatus === API_FETCH_STATUS.SUCCESS) {
-  //     setUsers(fetchedUsersData);
-  //   }
-  // }, [fetchedUsersData, fetchStatus]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const response = await getAllUsersData();
+      if (response.result === "success") {
+        setUsers(response.data);
+      } else {
+        setErrorMessage(response.message || 'Failed to fetch users');
+      }
+    };
+    fetchUsers();
+  }, []);
 
   const handleEditAccount = (userId) => {
     const userToEdit = users.find((user) => user.id === userId);
-    if (userToEdit) {
-      setSelectedUser(userToEdit);
-      setIsEditUserModalOpen(true);
-    }
+    setSelectedUser(userToEdit);
+    setIsEditUserModalOpen(true);
   };
 
   const handleEditSave = async (formData, updatedUserData) => {
-    // Update the menuItems state
-    const updatedUserList = users.map((user) =>
-      user.id === updatedUserData.id ? updatedUserData : user
-    );
-    setUsers(updatedUserList);
+    const response = await updateUser(updatedUserData);
+    if (response.result === "success") {
+      setUsers(users.map((user) => (user.id === updatedUserData.id ? updatedUserData : user)));
+      setErrorMessage('');
+    } else {
+      setErrorMessage(response.message || 'Failed to update user');
+    }
     setIsEditUserModalOpen(false);
     setSelectedUser(null);
   };
@@ -89,24 +53,24 @@ const ManageUsersPage = () => {
   };
 
   const handleAddUserSave = async (formData, newUserData) => {
-    // Find the highest existing user ID
-    const highestId = Math.max(...users.map((user) => user.id), 0);
-
-    // Set the new user's ID to be one higher than the highest existing ID
-    const newUserId = highestId + 1;
-
-    // Create a new user object with the new ID and other user data
-    const newUser = { ...newUserData, id: newUserId };
-
-    // Add the new user to the existing users list
-    const updatedUserList = [...users, newUser];
-
-    setUsers(updatedUserList);
+    const response = await addNewUser(newUserData);
+    if (response.result === "success") {
+      setUsers([...users, response.data]);
+      setErrorMessage('');
+    } else {
+      setErrorMessage(response.message || 'Failed to add user');
+    }
     setIsAddUserModalOpen(false);
   };
 
-  const handleRemoveUser = (userId) => {
-    // TODO: Logic to remove user
+  const handleRemoveUser = async (userId) => {
+    const response = await deleteUser({ id: userId });
+    if (response.result === "success") {
+      setUsers(users.filter((user) => user.id !== userId));
+      setErrorMessage('');
+    } else {
+      setErrorMessage(response.message || 'Failed to delete user');
+    }
   };
 
   return (
@@ -121,6 +85,7 @@ const ManageUsersPage = () => {
         <h1>Back to Dashboard</h1>
       </div>
       <div className="main-page-content">
+        {errorMessage && <div className="error-message">{errorMessage}</div>}
         <div className="users-list-container">
           <div className="users-list-header">
             <h2>User Management</h2>
